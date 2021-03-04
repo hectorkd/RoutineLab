@@ -3,6 +3,7 @@ import IMove from '../interfaces/move.interface';
 import Move from '../models/moves';
 
 async function getAllMoves(req: Request, res: Response): Promise<void> {
+  console.log('You are here');
   try {
     const moves: IMove[] = await Move.find();
     res.status(200);

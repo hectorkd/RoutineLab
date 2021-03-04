@@ -4,7 +4,7 @@ import { IMoveDocument } from '../interfaces/move.interface';
 const MoveSchema: Schema = new Schema({
   name: String,
   apparatus: String,
-  pointValue: String,
+  pointValue: Number,
   letterValue: String,
   copGroup: String,
   isDoubleRotation: {
