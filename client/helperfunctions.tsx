@@ -31,7 +31,14 @@ function calculateRoutineStart(routine: IMove[]): IStartValue {
 
   const totalStartValue = round((eScore + requirmentsTotal + elementTotal), 1);
 
-  return { eScore: parseFloat(eScore.toFixed(2)), requirmentsTotal, elementTotal, totalStartValue }
+  return { eScore: eScore.toFixed(1), requirmentsTotal: requirmentsTotal.toFixed(1), elementTotal: elementTotal.toFixed(1), totalStartValue: totalStartValue.toFixed(1) }
+}
+
+function calculateVaultStart(routine: IMove[]): IStartValue[] {
+  if (routine.length === 1) {
+    return [{ eScore: '10.0', requirmentsTotal: '0.0', elementTotal: `${routine[0].pointValue}`, totalStartValue: `${(routine[0].pointValue + 10)}` }, { eScore: '10.0', requirmentsTotal: '0.0', elementTotal: '0.0', totalStartValue: '0.0' }]
+  }
+  return [{ eScore: '10.0', requirmentsTotal: '0.0', elementTotal: `${routine[0].pointValue}`, totalStartValue: `${(routine[0].pointValue + 10)}` }, { eScore: '10.0', requirmentsTotal: '0.0', elementTotal: `${routine[1].pointValue}`, totalStartValue: `${(routine[1].pointValue + 10)}` }]
 }
 
 function round(value: number, precision: number): number {
@@ -40,5 +47,6 @@ function round(value: number, precision: number): number {
 }
 
 export default {
-  calculateRoutineStart
+  calculateRoutineStart,
+  calculateVaultStart
 } 

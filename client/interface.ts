@@ -23,8 +23,8 @@ export interface IRoutine {
 }
 
 export interface IStartValue {
-  eScore: number,
-  requirmentsTotal: number,
-  elementTotal: number,
-  totalStartValue: number
+  eScore: string,
+  requirmentsTotal: string,
+  elementTotal: string,
+  totalStartValue: string
 }

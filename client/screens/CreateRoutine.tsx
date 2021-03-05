@@ -15,7 +15,8 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
   const [routineName, setRoutineName] = useState<string>('');
   const [elements, setElements] = useState<IMove[]>([]);
   const [routineArray, setRoutineArray] = useState<IMove[]>([]);
-  const [startValue, setStartValue] = useState<IStartValue>({ eScore: 0, requirmentsTotal: 0, elementTotal: 0, totalStartValue: 0 });
+  const [startValue, setStartValue] = useState<IStartValue>({ eScore: '0.0', requirmentsTotal: '0.0', elementTotal: '0.0', totalStartValue: '0.0' });
+  const [vaultStartValue, setVaultStartValue] = useState<IStartValue[]>([{ eScore: '10.0', requirmentsTotal: '0.0', elementTotal: '0.0', totalStartValue: '0.0' }, { eScore: '10.0', requirmentsTotal: '0.0', elementTotal: '0.0', totalStartValue: '0.0' }]);
 
 
   useEffect(() => {
@@ -23,9 +24,12 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
   }, [])
 
   useEffect(() => {
-    if (routineArray.length) {
+    if (routineArray.length && apparatus !== 'Vault') {
       const start = helperFunctions.calculateRoutineStart(routineArray);
       setStartValue(start);
+    } else if (routineArray.length) {
+      const start = helperFunctions.calculateVaultStart(routineArray);
+      setVaultStartValue(start);
     }
   }, [routineArray])
 
@@ -43,19 +47,85 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
         </View>
         <View style={styles.middle}>
           <View>
-            <Text>First Vault:</Text>
-            <TouchableOpacity />
-            <Text>Second Vault:</Text>
-            <TouchableOpacity
-              style={styles.addButton}
-              onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus })}
-            >
-              <Text style={styles.addButtonText}>Add vault</Text>
-            </TouchableOpacity>
+            {
+              routineArray.length !== 0 && <FlatList
+                data={routineArray}
+                renderItem={(data) => <RoutineElement apparatus={apparatus} move={data.item} index={data.index + 1} />}
+                keyExtractor={(item: IMove) => item._id}
+                ItemSeparatorComponent={flatListSeperator}
+                scrollEnabled={false}
+              // ListHeaderComponent={flatListSeperator}
+              />
+            }
+            {
+              routineArray.length !== 0
+                ? (
+                  routineArray.length < 2
+                    ? <View style={styles.buttonContainer}>
+                      <TouchableOpacity
+                        style={[styles.twoButtons, styles.buttonSpace]}
+                        onPress={() => navigation.popToTop()}
+                      >
+                        <Text style={styles.addButtonText}>Save routine</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.twoButtons}
+                        onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray })}
+                      >
+                        <Text style={styles.addButtonText}>Add element</Text>
+                      </TouchableOpacity>
+                    </View>
+                    : <View style={styles.buttonContainer}>
+                      <TouchableOpacity
+                        style={styles.addButton}
+                        onPress={() => navigation.popToTop()}
+                      >
+                        <Text style={styles.addButtonText}>Save vault{routineArray.length ? 's' : ''}</Text>
+                      </TouchableOpacity>
+                    </View>
+                )
+                : <View style={styles.buttonContainer}>
+                  <TouchableOpacity
+                    style={styles.addButton}
+                    onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray })}
+                  >
+                    <Text style={styles.addButtonText}>Add vault</Text>
+                  </TouchableOpacity>
+                </View>
+            }
           </View>
         </View>
-        <View style={styles.bottom}>
-          <Text>Total: </Text>
+        <View style={styles.vaultBottom}>
+          <View>
+            <View style={styles.routineAdditionDisplay}>
+              <View style={[styles.additionBox, styles.colorOne]}>
+                <Text style={styles.textBold}>{vaultStartValue[0].eScore}</Text>
+              </View>
+
+              <Text style={styles.addSign}>+</Text>
+              <View style={[styles.additionBox, styles.colorThree]}>
+                <Text style={styles.textBold}>{vaultStartValue[0].elementTotal}</Text>
+              </View>
+            </View>
+            <View style={styles.routineAdditionDisplay}>
+              <Text style={[styles.totalValueNum, styles.colorFour]}>FIRST VAULT START: </Text>
+              <Text style={styles.totalValueNum}>{vaultStartValue[0].totalStartValue}</Text>
+            </View>
+            <View style={styles.routineAdditionDisplay}>
+              <View style={[styles.additionBox, styles.colorOne]}>
+                <Text style={styles.textBold}>{vaultStartValue[1].eScore}</Text>
+              </View>
+
+              <Text style={styles.addSign}>+</Text>
+              <View style={[styles.additionBox, styles.colorThree]}>
+                <Text style={styles.textBold}>{vaultStartValue[1].elementTotal}</Text>
+              </View>
+            </View>
+            <View style={styles.routineAdditionDisplay}>
+              <Text style={[styles.totalValueNum, styles.colorFour]}>SECOND VAULT START: </Text>
+              <Text style={styles.totalValueNum}>{vaultStartValue[1].totalStartValue}</Text>
+            </View>
+          </View>
         </View>
       </View>
     )
@@ -66,48 +136,72 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
           <TextInput style={styles.input} value={routineName} onChangeText={setRoutineName} placeholder="Name routine" />
         </View>
         <View style={styles.middle}>
-          {
-            routineArray.length !== 0 && <FlatList
-              data={routineArray}
-              renderItem={(data) => <RoutineElement move={data.item} index={data.index + 1} />}
-              keyExtractor={(item: IMove) => item._id}
-              ItemSeparatorComponent={flatListSeperator}
-              scrollEnabled={false}
-            // ListHeaderComponent={flatListSeperator}
-            />
-          }
-          {
-            routineArray.length < 10
-              ? <TouchableOpacity
-                style={styles.addButton}
-                onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray })}
-              >
-                <Text style={styles.addButtonText}>Add element</Text>
-              </TouchableOpacity>
-              : <TouchableOpacity
-                style={styles.addButton}
-                onPress={() => { }}
-              >
-                <Text style={styles.addButtonText}>Save routine</Text>
-              </TouchableOpacity>
-          }
+          <View>
+
+            {
+              routineArray.length !== 0 && <FlatList
+                data={routineArray}
+                renderItem={(data) => <RoutineElement apparatus={apparatus} move={data.item} index={data.index + 1} />}
+                keyExtractor={(item: IMove) => item._id}
+                ItemSeparatorComponent={flatListSeperator}
+                scrollEnabled={false}
+              // ListHeaderComponent={flatListSeperator}
+              />
+            }
+            {
+              routineArray.length < 10
+                ? (
+                  routineArray.length === 0
+                    ? <View style={styles.buttonContainer}>
+                      <TouchableOpacity
+                        style={styles.addButton}
+                        onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray })}
+                      >
+                        <Text style={styles.addButtonText}>Add element</Text>
+                      </TouchableOpacity>
+                    </View>
+                    : <View style={styles.buttonContainer}>
+                      <TouchableOpacity
+                        style={[styles.twoButtons, styles.buttonSpace]}
+                        onPress={() => navigation.popToTop()}
+                      >
+                        <Text style={styles.addButtonText}>Save routine</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.twoButtons}
+                        onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray })}
+                      >
+                        <Text style={styles.addButtonText}>Add element</Text>
+                      </TouchableOpacity>
+                    </View>
+                )
+                : <View style={styles.buttonContainer}>
+                  <TouchableOpacity
+                    style={styles.addButton}
+                    onPress={() => navigation.popToTop()}
+                  >
+                    <Text style={styles.addButtonText}>Save routine</Text>
+                  </TouchableOpacity>
+                </View>
+            }
+          </View>
         </View>
         <View style={styles.bottom}>
           <View style={styles.routineAdditionDisplay}>
-            <View style={styles.additionBox}>
-              <Text>{startValue.eScore}</Text>
+            <View style={[styles.additionBox, styles.colorOne]}>
+              <Text style={styles.textBold}>{startValue.eScore}</Text>
             </View>
             <Text style={styles.addSign}>+</Text>
-            <View style={styles.additionBox}>
-              <Text>{startValue.requirmentsTotal}</Text>
+            <View style={[styles.additionBox, styles.colorTwo]}>
+              <Text style={styles.textBold}>{startValue.requirmentsTotal}</Text>
             </View>
             <Text style={styles.addSign}>+</Text>
-            <View style={styles.additionBox}>
-              <Text>{startValue.elementTotal}</Text>
+            <View style={[styles.additionBox, styles.colorThree]}>
+              <Text style={styles.textBold}>{startValue.elementTotal}</Text>
             </View>
           </View>
           <View style={styles.routineAdditionDisplay}>
-            <Text style={styles.totalValue}>START VALUE: </Text>
+            <Text style={[styles.totalValueNum, styles.colorFour]}>START VALUE: </Text>
             <Text style={styles.totalValueNum}>{startValue.totalStartValue}</Text>
           </View>
         </View>
@@ -121,6 +215,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    // backgroundColor: 'yellow',
     // justifyContent: 'center',
   },
   input: {
@@ -139,7 +234,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15,
-    marginTop: 10,
   },
   addButtonText: {
     color: 'white',
@@ -161,7 +255,7 @@ const styles = StyleSheet.create({
   totalValueNum: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#89BFFF',
+    color: 'orange',
   },
   top: {
     flex: 1,
@@ -170,20 +264,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   middle: {
-    flex: 10,
+    flex: 8,
+    width: '100%',
     // backgroundColor: 'pink',
   },
   bottom: {
     flex: 1,
+    width: '100%',
     // backgroundColor: 'orange',
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   elementList: {
-    marginTop: 13,
+    marginTop: 10,
   },
   additionBox: {
-    borderWidth: 1,
+    borderWidth: 2,
     height: 20,
     width: 40,
     justifyContent: 'center',
@@ -198,7 +294,51 @@ const styles = StyleSheet.create({
   addSign: {
     marginLeft: 5,
     marginRight: 5,
+    fontSize: 15,
     color: 'grey'
+  },
+  twoButtons: {
+    borderColor: '#89BFFF',
+    backgroundColor: '#89BFFF',
+    borderWidth: 2,
+    height: 50,
+    width: 180,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 15,
+    marginTop: 10,
+  },
+  twoButtonContainer: {
+    flexDirection: 'row',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: 'yellow',
+  },
+  buttonSpace: {
+    marginRight: 20,
+  },
+  textBold: {
+    fontWeight: 'bold',
+  },
+  colorOne: {
+    borderColor: 'grey',
+  },
+  colorTwo: {
+    borderColor: '#96FF33',
+  },
+  colorThree: {
+    borderColor: 'pink',
+  },
+  colorFour: {
+    color: 'grey',
+  },
+  vaultBottom: {
+    flex: 2
   }
 })
 

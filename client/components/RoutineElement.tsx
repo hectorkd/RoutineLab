@@ -2,46 +2,58 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { IMove } from '../interface';
 
-interface RoutineElementProps { move: IMove, index: number }
+interface RoutineElementProps { move: IMove, index: number, apparatus: string }
 
-const RoutineElement: React.FC<RoutineElementProps> = ({ move, index }) => {
+const RoutineElement: React.FC<RoutineElementProps> = ({ move, index, apparatus }) => {
+
   return (
-    <View style={styles.container}>
-      <View style={styles.numberContainer}>
-        <Text style={styles.number}>{index}.</Text>
-      </View>
-      <View style={styles.infoContainer}>
-        <View style={styles.move}>
-          <View style={styles.left}>
-            <Text style={styles.letter}>{move.letterValue}</Text>
-          </View>
-          <View style={styles.right}>
-            <Text>{move.name}</Text>
+    <View style={styles.container} >
+      <View style={styles.moveContainer}>
+        <View style={styles.numberContainer}>
+          <Text style={styles.number}>{index}.</Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <View style={styles.move}>
+            <View style={styles.left}>
+              <Text style={styles.letter}>{move.letterValue}</Text>
+            </View>
+            <View style={styles.right}>
+              <Text>{move.name}</Text>
+            </View>
           </View>
         </View>
       </View>
-    </View>
+    </View >
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     height: 45,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // borderWidth: 2,
+    // borderColor: 'green',
+  },
+  moveContainer: {
+    height: '100%',
+    width: 400,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     // borderWidth: 2,
-    // borderColor: 'green',
+    // borderColor: 'yellow',
   },
   numberContainer: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    // alignItems: 'center',
     // borderWidth: 2,
     // borderColor: 'pink',
   },
   infoContainer: {
-    flex: 6,
+    flex: 8,
     // borderWidth: 2,
     // borderColor: 'yellow',
   },
