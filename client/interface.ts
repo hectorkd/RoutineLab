@@ -22,6 +22,9 @@ export interface IRoutine {
   routine: IIndividualMove[]
 }
 
-export interface ITotal {
-  total: [number, number, number, number]
+export interface IStartValue {
+  eScore: number,
+  requirmentsTotal: number,
+  elementTotal: number,
+  totalStartValue: number
 }

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, TextInput } from 'react-native'
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import { IMove, ITotal } from '../interface';
+import { IMove, IStartValue } from '../interface';
 import ApiServices from '../ApiServices';
 import RoutineElement from '../components/RoutineElement';
+import helperFunctions from '../helperfunctions';
 
 interface createRoutineProps { route: any, navigation: any }
 
@@ -11,19 +12,22 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
 
   const { apparatus } = route.params;
 
-  const [routineName, setRoutineName] = useState<string>('')
+  const [routineName, setRoutineName] = useState<string>('');
   const [elements, setElements] = useState<IMove[]>([]);
-  const [routineArray, setRoutineArray] = useState<IMove[]>([])
-  const [total, setTotal] = useState<ITotal[]>([])
+  const [routineArray, setRoutineArray] = useState<IMove[]>([]);
+  const [startValue, setStartValue] = useState<IStartValue>({ eScore: 0, requirmentsTotal: 0, elementTotal: 0, totalStartValue: 0 });
 
 
   useEffect(() => {
     ApiServices.getApparatusMoves(apparatus).then(res => setElements(res));
   }, [])
 
-  // useEffect(() => {
-  //   console.log(routineArray);
-  // }, [routineArray])
+  useEffect(() => {
+    if (routineArray.length) {
+      const start = helperFunctions.calculateRoutineStart(routineArray);
+      setStartValue(start);
+    }
+  }, [routineArray])
 
   function flatListSeperator(): any {
     return (
@@ -68,6 +72,7 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
               renderItem={(data) => <RoutineElement move={data.item} index={data.index + 1} />}
               keyExtractor={(item: IMove) => item._id}
               ItemSeparatorComponent={flatListSeperator}
+              scrollEnabled={false}
             // ListHeaderComponent={flatListSeperator}
             />
           }
@@ -88,7 +93,23 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
           }
         </View>
         <View style={styles.bottom}>
-          <Text style={styles.totalValue}>START VALUE: </Text>
+          <View style={styles.routineAdditionDisplay}>
+            <View style={styles.additionBox}>
+              <Text>{startValue.eScore}</Text>
+            </View>
+            <Text style={styles.addSign}>+</Text>
+            <View style={styles.additionBox}>
+              <Text>{startValue.requirmentsTotal}</Text>
+            </View>
+            <Text style={styles.addSign}>+</Text>
+            <View style={styles.additionBox}>
+              <Text>{startValue.elementTotal}</Text>
+            </View>
+          </View>
+          <View style={styles.routineAdditionDisplay}>
+            <Text style={styles.totalValue}>START VALUE: </Text>
+            <Text style={styles.totalValueNum}>{startValue.totalStartValue}</Text>
+          </View>
         </View>
       </View >
     )
@@ -137,6 +158,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'grey',
   },
+  totalValueNum: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#89BFFF',
+  },
   top: {
     flex: 1,
     // backgroundColor: 'yellow',
@@ -150,11 +176,29 @@ const styles = StyleSheet.create({
   bottom: {
     flex: 1,
     // backgroundColor: 'orange',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
   },
   elementList: {
     marginTop: 13,
+  },
+  additionBox: {
+    borderWidth: 1,
+    height: 20,
+    width: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 3,
+  },
+  routineAdditionDisplay: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addSign: {
+    marginLeft: 5,
+    marginRight: 5,
+    color: 'grey'
   }
 })
 

@@ -55,12 +55,13 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   number: {
-    fontSize: 40,
+    fontSize: 30,
     height: 40,
     color: 'grey',
     // borderWidth: 2,
     // borderColor: 'yellow',
-    textAlignVertical: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   left: {
     flex: 1,
@@ -79,6 +80,7 @@ const styles = StyleSheet.create({
   letter: {
     color: 'white',
     fontWeight: 'bold',
+    fontSize: 20,
   }
 })
 
