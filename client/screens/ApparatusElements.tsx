@@ -9,7 +9,7 @@ interface ApparatusElementsProps { route: any, navigation: any }
 
 const ApparatusElements: React.FC<ApparatusElementsProps> = ({ route, navigation }) => {
 
-  const { apparatus, elements, setRoutineArray, routine } = route.params;
+  const { apparatus, elements, setRoutineArray, routine, isChanging, index } = route.params;
 
   const sortedElements: IMove[] = elements.sort((a: IMove, b: IMove) => a.pointValue - b.pointValue);
 
@@ -18,12 +18,20 @@ const ApparatusElements: React.FC<ApparatusElementsProps> = ({ route, navigation
     routine.forEach((element: IMove) => {
       if (element._id === move._id) flag = true;
     });
-    if (!flag) {
+    if (!flag && !isChanging) {
       setRoutineArray((prev: IMove[]) => [...prev, move]);
+      navigation.goBack();
+    } else if (!flag && isChanging) {
+      setRoutineArray((prev: IMove[]) => {
+        const newPrev = prev.slice();
+        newPrev.splice(index, 1, move);
+        setRoutineArray(newPrev);
+      });
       navigation.goBack();
     } else {
       Alert.alert('You have already selected this element, please choose a different one')
     }
+
   }
 
   return (

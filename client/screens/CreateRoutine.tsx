@@ -50,7 +50,11 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
             {
               routineArray.length !== 0 && <FlatList
                 data={routineArray}
-                renderItem={(data) => <RoutineElement apparatus={apparatus} move={data.item} index={data.index + 1} />}
+                renderItem={(data) => <TouchableOpacity
+                  onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray, isChanging: true, index: data.index })}
+                >
+                  <RoutineElement apparatus={apparatus} move={data.item} index={data.index + 1} />
+                </TouchableOpacity>}
                 keyExtractor={(item: IMove) => item._id}
                 ItemSeparatorComponent={flatListSeperator}
                 scrollEnabled={false}
@@ -70,7 +74,7 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
                       </TouchableOpacity>
                       <TouchableOpacity
                         style={styles.twoButtons}
-                        onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray })}
+                        onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray, isChanging: false })}
                       >
                         <Text style={styles.addButtonText}>Add element</Text>
                       </TouchableOpacity>
@@ -87,7 +91,7 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
                 : <View style={styles.buttonContainer}>
                   <TouchableOpacity
                     style={styles.addButton}
-                    onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray })}
+                    onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray, isChanging: false })}
                   >
                     <Text style={styles.addButtonText}>Add vault</Text>
                   </TouchableOpacity>
@@ -141,7 +145,12 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
             {
               routineArray.length !== 0 && <FlatList
                 data={routineArray}
-                renderItem={(data) => <RoutineElement apparatus={apparatus} move={data.item} index={data.index + 1} />}
+                renderItem={(data) => <TouchableOpacity
+                  onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray, isChanging: true, index: data.index })}
+                >
+                  <RoutineElement apparatus={apparatus} move={data.item} index={data.index + 1} />
+                </TouchableOpacity>
+                }
                 keyExtractor={(item: IMove) => item._id}
                 ItemSeparatorComponent={flatListSeperator}
                 scrollEnabled={false}
@@ -155,7 +164,7 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
                     ? <View style={styles.buttonContainer}>
                       <TouchableOpacity
                         style={styles.addButton}
-                        onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray })}
+                        onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray, isChanging: false })}
                       >
                         <Text style={styles.addButtonText}>Add element</Text>
                       </TouchableOpacity>
@@ -169,7 +178,7 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
                       </TouchableOpacity>
                       <TouchableOpacity
                         style={styles.twoButtons}
-                        onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray })}
+                        onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray, isChanging: false })}
                       >
                         <Text style={styles.addButtonText}>Add element</Text>
                       </TouchableOpacity>
