@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Switch } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStack from './stacks/HomeStack';
 import CodeOfPointsStack from './stacks/CodeOfPointsStack';
 import AppRoutineStack from './stacks/AddRoutineStack';
+import Register from './components/Register';
+import LogIn from './components/LogIn';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ILoggedIn } from './interface';
+import { ILoggedIn, IPostUser } from './interface';
+import ApiServices from './ApiServices';
 
 interface AppTabsProps { }
 
@@ -20,20 +23,34 @@ const Tab = createBottomTabNavigator<AppParamList>();
 
 const App: React.FC<AppTabsProps> = ({ }) => {
 
-  const [isLoggedIn, setIsLoggedIn] = useState<ILoggedIn>({ loggedIn: false, name: '', gymnast: true })
+  const [isLoggedIn, setIsLoggedIn] = useState<ILoggedIn>({ loggedIn: false, firstName: '', lastName: '', gymnasticsClub: '', gymnast: true })
+  const [isRegistering, setIsRegistering] = useState<boolean>(false)
+  const [isEnabled, setIsEnabled] = useState<boolean>(true);
 
-  if (!isLoggedIn) {
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+  function handleRegister(data: IPostUser): void {
+    ApiServices.addUser(data).then(res => {
+      setIsLoggedIn({ loggedIn: true, firstName: res.firstName, lastName: res.lastName, gymnasticsClub: res.gymnasticsClub, gymnast: res.gymnast })
+    })
+    setIsRegistering(false);
+  }
+
+  function handleLogIn(): void {
+    // setIsLoggedIn({ loggedIn: true, name: 'Hector', gymnast: true })
+  }
+
+  if (!isLoggedIn.loggedIn) {
     return (
       <SafeAreaView style={styles.container}>
-        <TextInput style={styles.inputBox} placeholder="Email"></TextInput>
-        <TextInput style={styles.inputBox} placeholder="Password"></TextInput>
-        <View style={styles.logInButton}>
-          <Text>Log in</Text>
-        </View>
-        <Text>Register?</Text>
-      </SafeAreaView>
+        {
+          !isRegistering
+            ? <LogIn handleLogIn={handleLogIn} setIsRegistering={setIsRegistering} />
+            : <Register handleRegister={handleRegister} isEnabled={isEnabled} toggleSwitch={toggleSwitch} setIsRegistering={setIsRegistering} />
+        }
+      </SafeAreaView >
     )
-  } else {
+  } else if (isLoggedIn.loggedIn && !isLoggedIn.gymnast) {
     return (
       <NavigationContainer>
         <Tab.Navigator
@@ -54,6 +71,10 @@ const App: React.FC<AppTabsProps> = ({ }) => {
         </Tab.Navigator>
       </NavigationContainer >
     );
+  } else {
+    return (
+      <Text></Text>
+    )
   }
 }
 
@@ -65,22 +86,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  inputBox: {
-    height: 50,
-    width: 300,
-    borderWidth: 2,
-    borderColor: '#89BFFF',
-    margin: 10,
-  },
-  logInButton: {
-    height: 50,
-    width: 300,
-    borderWidth: 0,
-    backgroundColor: '#89BFFF',
-    borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
 });
 
 

@@ -31,6 +31,25 @@ export interface IStartValue {
 
 export interface ILoggedIn {
   loggedIn: boolean,
-  name: string,
+  firstName: string,
+  lastName: string,
+  gymnasticsClub: string,
   gymnast: boolean
+}
+
+export interface IPostUser {
+  firstName: string,
+  lastName: string,
+  gymnasticsClub: string,
+  gymnast: boolean,
+  email: string,
+  password: string,
+}
+
+export interface IUser {
+  firstName: string,
+  lastName: string,
+  gymnasticsClub: string,
+  gymnast: boolean,
+  email: string,
 }
