@@ -5,8 +5,6 @@ function calculateRoutineStart(routine: IMove[]): IStartValue {
   const length = routine.length;
   let eScore: number = 0;
 
-  console.log(routine);
-
   if (length === 0) {
     eScore = 0;
   } else if (length < 3) {

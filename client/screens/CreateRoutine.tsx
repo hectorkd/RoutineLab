@@ -115,20 +115,24 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
               <Text style={[styles.totalValueNum, styles.colorFour]}>FIRST VAULT START: </Text>
               <Text style={styles.totalValueNum}>{vaultStartValue[0].totalStartValue}</Text>
             </View>
-            <View style={styles.routineAdditionDisplay}>
-              <View style={[styles.additionBox, styles.colorOne]}>
-                <Text style={styles.textBold}>{vaultStartValue[1].eScore}</Text>
-              </View>
+            {
+              routineArray.length === 2 && <View><View style={styles.routineAdditionDisplay}>
+                <View style={[styles.additionBox, styles.colorOne]}>
+                  <Text style={styles.textBold}>{vaultStartValue[1].eScore}</Text>
+                </View>
 
-              <Text style={styles.addSign}>+</Text>
-              <View style={[styles.additionBox, styles.colorThree]}>
-                <Text style={styles.textBold}>{vaultStartValue[1].elementTotal}</Text>
+                <Text style={styles.addSign}>+</Text>
+                <View style={[styles.additionBox, styles.colorThree]}>
+                  <Text style={styles.textBold}>{vaultStartValue[1].elementTotal}</Text>
+                </View>
               </View>
-            </View>
-            <View style={styles.routineAdditionDisplay}>
-              <Text style={[styles.totalValueNum, styles.colorFour]}>SECOND VAULT START: </Text>
-              <Text style={styles.totalValueNum}>{vaultStartValue[1].totalStartValue}</Text>
-            </View>
+                <View style={styles.routineAdditionDisplay}>
+                  <Text style={[styles.totalValueNum, styles.colorFour]}>SECOND VAULT START: </Text>
+                  <Text style={styles.totalValueNum}>{vaultStartValue[1].totalStartValue}</Text>
+                </View>
+              </View>
+            }
+
           </View>
         </View>
       </View>

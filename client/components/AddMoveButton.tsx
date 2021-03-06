@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { View, Text, StyleSheet } from 'react-native';
 import { IMove } from '../interface';
 
 interface AddMoveButtonProps { move: IMove, navigation: any, handlePress: any }
@@ -8,10 +7,6 @@ interface AddMoveButtonProps { move: IMove, navigation: any, handlePress: any }
 const AddMoveButton: React.FC<AddMoveButtonProps> = ({ move, navigation, handlePress }) => {
   return (
     <View style={styles.container}>
-      {console.log('extaData', handlePress())}
-      {/* <TouchableOpacity
-        onPress={() => extraData.handlePress()}
-      > */}
       <View style={styles.box}>
         <View style={styles.value}>
           <Text style={styles.valueText}>{move.letterValue}</Text>
@@ -22,7 +17,6 @@ const AddMoveButton: React.FC<AddMoveButtonProps> = ({ move, navigation, handleP
           <Text style={styles.infoText}>Group: {move.copGroup}</Text>
         </View>
       </View>
-      {/* </TouchableOpacity> */}
     </View>
   )
 }
