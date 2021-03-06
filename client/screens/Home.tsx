@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -93,9 +93,8 @@ const Home: React.FC<homeProps> = ({ navigation }) => {
 
     )
   }
-
-
 }
+
 
 const styles = StyleSheet.create({
   container: {

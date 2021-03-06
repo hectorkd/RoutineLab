@@ -28,3 +28,9 @@ export interface IStartValue {
   elementTotal: string,
   totalStartValue: string
 }
+
+export interface ILoggedIn {
+  loggedIn: boolean,
+  name: string,
+  gymnast: boolean
+}
