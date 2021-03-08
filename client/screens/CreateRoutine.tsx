@@ -55,7 +55,7 @@ const CreateRoutine: React.FC<CreateRoutineProps> = ({ route, navigation }) => {
     }
   }
 
-  function flatListSeperator(): any {
+  function flatListSeperator(): JSX.Element {
     return (
       <View style={styles.elementList}></View>
     )

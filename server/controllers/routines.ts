@@ -5,7 +5,7 @@ import Routine from '../models/routine';
 async function postRoutine(req: Request, res: Response): Promise<void> {
   try {
     const { userFirstName, routineName, routine, apparatus } = req.body;
-    const checkRoutine = await Routine.find({ userFirstName, routineName });
+    const checkRoutine = await Routine.find({ userFirstName, routineName, apparatus });
     if (checkRoutine.length > 0) {
       res.status(409);
       res.send({ exists: 'Routine under this name already exists' });

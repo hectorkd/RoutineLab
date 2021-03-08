@@ -72,3 +72,12 @@ export interface IPostRoutine {
   apparatus: string,
   routine: IRoutineId[]
 }
+
+export interface ICompRoutine {
+  floor: IPostRoutine,
+  pommel: IPostRoutine,
+  rings: IPostRoutine,
+  vault: IPostRoutine,
+  pBars: IPostRoutine,
+  hBar: IPostRoutine,
+}

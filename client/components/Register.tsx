@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Switch, Alert } from 'react-native'
 import { IPostUser } from '../interface';
+import { Ionicons } from '@expo/vector-icons';
 import { PickerIOS } from '@react-native-picker/picker';
 import ApiServices from '../ApiServices';
 import { UserContext } from '../context/UserProvider';
@@ -39,7 +40,7 @@ const Register: React.FC<RegisterProps> = ({ setIsRegistering }) => {
             setRegistrationValues(initialRegistrationValue);
           } else {
             setIsRegistering(false);
-            context.login({ loggedIn: true, firstName: res.firstName, lastName: res.lastName, gymnasticsClub: res.gymnasticsClub, gymnast: res.gymnast })
+            context.login({ loggedIn: true, ...res })
           }
         })
       } catch (error) {
@@ -57,7 +58,7 @@ const Register: React.FC<RegisterProps> = ({ setIsRegistering }) => {
           style={styles.goBackContainer}
           onPress={() => setIsRegistering(false)}
         >
-          <Text>{'< Log in'}</Text>
+          <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
         <Text style={styles.title}>REGISTER:</Text>
       </View>

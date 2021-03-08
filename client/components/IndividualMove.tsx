@@ -8,16 +8,10 @@ const IndividualMove: React.FC<IndividualMoveProps> = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.box}>
-        {
-          props.move.apparatus === 'Vault'
-            ? <View style={styles.value}>
-              <Text style={styles.valueText}>{props.move.pointValue}</Text>
-            </View>
-            : <View style={styles.value}>
-              <Text style={styles.valueText}>{props.move.letterValue}</Text>
-              <Text style={styles.valueText}>{props.move.pointValue}</Text>
-            </View>
-        }
+        <View style={styles.value}>
+          <Text style={styles.valueText}>{props.move.pointValue}</Text>
+          {props.move.apparatus !== 'Vault' && <Text style={styles.valueText}>{props.move.letterValue}</Text>}
+        </View>
         <View style={styles.info}>
           <Text style={styles.infoText}>{props.move.name}</Text>
           <Text style={styles.infoText}>Group: {props.move.copGroup}</Text>

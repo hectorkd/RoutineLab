@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, StyleSheet, FlatList, SectionList, View, ActivityIndicator } from 'react-native';
+import { Text, StyleSheet, SectionList, View, ActivityIndicator } from 'react-native';
 import { IMove, IMoveSection } from '../interface';
 import apiService from '../ApiServices';
 import IndividualMove from '../components/IndividualMove';
@@ -52,7 +52,7 @@ const CodeOfPoints: React.FC = () => {
     )
   } else {
     return (
-      <View>
+      <View style={styles.container}>
         <View style={styles.search}>
           <Text>Search</Text>
           <Text>Filter</Text>
@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
   },
   search: {
     height: 60,
+    width: '100%',
     backgroundColor: '#EFF6FF',
     flexDirection: 'row',
     justifyContent: 'space-around',

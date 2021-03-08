@@ -12,6 +12,7 @@ import { StyleSheet } from 'react-native';
 import { UserContext } from '../context/UserProvider';
 import { AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import SavedRoutineDisplay from '../screens/SavedRoutineDisplay';
 
 const Stack = createStackNavigator();
 
@@ -147,6 +148,24 @@ const HomeStack: React.FC = () => {
         ),
       }} />
       <Stack.Screen name="COACH SUGGESTIONS" component={CoachSuggestions} options={{
+        headerStyle: {
+          backgroundColor: '#89BFFF',
+        },
+        headerTintColor: '#FFFFFF',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          fontSize: 20,
+        },
+        headerRight: () => (
+          <TouchableOpacity
+            onPress={logout}
+            style={styles.logout}
+          >
+            <AntDesign name="logout" size={24} color="white" />
+          </TouchableOpacity>
+        ),
+      }} />
+      <Stack.Screen name="ROUTINE" component={SavedRoutineDisplay} options={{
         headerStyle: {
           backgroundColor: '#89BFFF',
         },

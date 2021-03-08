@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ApiServices from '../ApiServices';
 import { UserContext } from '../context/UserProvider';
-import { IPostRoutine } from '../interface';
+import { IPostRoutine, ICompRoutine } from '../interface';
 
 
 interface homeProps { navigation: any }
@@ -13,7 +13,7 @@ const Home: React.FC<homeProps> = ({ navigation }) => {
   const context = useContext(UserContext);
 
   const [routines, setRoutines] = useState<IPostRoutine[]>([]);
-  const [compRoutines, setCompRoutines] = useState<[]>([]);
+  const [compRoutines, setCompRoutines] = useState<ICompRoutine>();
 
   useEffect(() => {
     if (context.user?.firstName) {
@@ -41,7 +41,7 @@ const Home: React.FC<homeProps> = ({ navigation }) => {
     return (
       <View style={styles.container}>
         {
-          !compRoutines.length
+          !compRoutines
             ? <View />
             : <View style={styles.homeDisplayTop}>
               <Text style={styles.blueText}>OVERALL START:</Text>

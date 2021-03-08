@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { View, Text, StyleSheet, Alert } from 'react-native'
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import { IMove, IRoutine } from '../interface';
-import AddMoveButton from '../components/AddMoveButton';
+import { IMove } from '../interface';
 import IndividualMove from '../components/IndividualMove';
 
 interface ApparatusElementsProps { route: any, navigation: any }
@@ -25,7 +24,7 @@ const ApparatusElements: React.FC<ApparatusElementsProps> = ({ route, navigation
       setRoutineArray((prev: IMove[]) => {
         const newPrev = prev.slice();
         newPrev.splice(index, 1, move);
-        setRoutineArray(newPrev);
+        return newPrev;
       });
       navigation.goBack();
     } else {

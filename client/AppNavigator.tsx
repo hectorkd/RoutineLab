@@ -4,15 +4,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { UserContext } from './context/UserProvider';
 import { Octicons } from '@expo/vector-icons';
-import Ionicons from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import LogIn from './components/LogIn';
 import Register from './components/Register';
 import HomeStack from './stacks/HomeStack';
 import CodeOfPointsStack from './stacks/CodeOfPointsStack';
 import AppRoutineStack from './stacks/AddRoutineStack';
-
-// interface AppNavigatorProps { route: any }
 
 type AppParamList = {
   Home: undefined;
@@ -48,19 +45,14 @@ const AppNavigator: React.FC = () => {
               } else if (route.name === '+') {
                 return <Octicons name="diff-added" size={25} color={focused ? 'orange' : "black"} />
               } else if (route.name === 'COP') {
-                return <Image style={{ width: 25, height: 25, borderWidth: focused ? 1 : 0, borderColor: focused ? 'orange' : "transparent" }} source={require('./assets/COP.svg.png')}></Image>
+                return <Image style={{ width: 25, height: 25, borderWidth: focused ? 2 : 0, borderColor: focused ? 'orange' : "transparent" }} source={require('./assets/COP.svg.png')}></Image>
               }
             }
           })}
-          // {
-          // }}
           tabBarOptions={{
             activeTintColor: '#89BFFF',
             inactiveTintColor: 'gray',
             showLabel: false,
-            // labelStyle: {
-            //   fontSize: 25,
-            // },
             style: {
               backgroundColor: '#EFF6FF',
               height: 80,

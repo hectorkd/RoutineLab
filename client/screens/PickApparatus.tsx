@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import UserContext from '../App';
 
 interface addRoutineProps { navigation: any }
 
@@ -9,14 +8,12 @@ const AddRoutine: React.FC<addRoutineProps> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        {/* <UserContext.Comsumer> */}
         <TouchableOpacity
           style={styles.apparatusBox}
           onPress={() => navigation.navigate('CREATE ROUTINE', { apparatus: "Floor" })}
         >
           <Image style={styles.icons} source={require('../assets/Floor.png')}></Image>
         </TouchableOpacity>
-        {/* </UserContext.Comsumer> */}
         <TouchableOpacity
           style={styles.apparatusBox}
           onPress={() => navigation.navigate('CREATE ROUTINE', { apparatus: "Pommel Horse" })}
