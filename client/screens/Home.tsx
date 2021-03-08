@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+
 interface homeProps { navigation: any }
 
 const Home: React.FC<homeProps> = ({ navigation }) => {

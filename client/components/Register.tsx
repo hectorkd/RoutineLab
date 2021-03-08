@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Switch, Alert } from 'react-native'
 import { IPostUser } from '../interface';
 import { PickerIOS } from '@react-native-picker/picker';
 import ApiServices from '../ApiServices';
+import { UserContext } from '../context/UserProvider';
 
-interface RegisterProps { setIsLoggedIn: any, setIsRegistering: any }
+interface RegisterProps {
+  setIsRegistering: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 const initialRegistrationValue: IPostUser = {
   firstName: '',
@@ -15,9 +18,10 @@ const initialRegistrationValue: IPostUser = {
   password: ''
 }
 
-const Register: React.FC<RegisterProps> = ({ setIsLoggedIn, setIsRegistering }) => {
+const Register: React.FC<RegisterProps> = ({ setIsRegistering }) => {
 
   // const [value, setValue] = useState<string>('JavaScripts');
+  const context = useContext(UserContext)
 
   const [registrationValues, setRegistrationValues] = useState(initialRegistrationValue);
 
@@ -35,7 +39,7 @@ const Register: React.FC<RegisterProps> = ({ setIsLoggedIn, setIsRegistering }) 
             setRegistrationValues(initialRegistrationValue);
           } else {
             setIsRegistering(false);
-            setIsLoggedIn({ loggedIn: true, firstName: res.firstName, lastName: res.lastName, gymnasticsClub: res.gymnasticsClub, gymnast: res.gymnast })
+            context.login({ loggedIn: true, firstName: res.firstName, lastName: res.lastName, gymnasticsClub: res.gymnasticsClub, gymnast: res.gymnast })
           }
         })
       } catch (error) {
@@ -76,7 +80,7 @@ const Register: React.FC<RegisterProps> = ({ setIsLoggedIn, setIsRegistering }) 
           <Text style={styles.gymnastOrCoach}>{registrationValues.gymnast ? 'Gymnast' : 'Coach'}</Text>
           <Switch
             trackColor={{ false: "#767577", true: "#81b0ff" }}
-            thumbColor={isEnabled ? "#EFF6FF" : "#f4f3f4"}
+            thumbColor={registrationValues.gymnast ? "#EFF6FF" : "#f4f3f4"}
             ios_backgroundColor="#3e3e3e"
             onValueChange={e => handleChange(e, 'gymnast')}
             value={registrationValues.gymnast}

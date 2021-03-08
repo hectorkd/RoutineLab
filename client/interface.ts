@@ -29,12 +29,16 @@ export interface IStartValue {
   totalStartValue: string
 }
 
-export interface ILoggedIn {
-  loggedIn: boolean,
-  firstName: string,
-  lastName: string,
-  gymnasticsClub: string,
-  gymnast: boolean
+export interface IUserContext {
+  user: {
+    loggedIn: boolean,
+    firstName: string,
+    lastName: string,
+    gymnasticsClub: string,
+    gymnast: boolean
+  } | null,
+  login: (newUser: IUserContext["user"]) => void
+  logout: () => void
 }
 
 export interface IPostUser {

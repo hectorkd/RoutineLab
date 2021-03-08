@@ -5,7 +5,7 @@ import { IMove, IStartValue, IRoutineId } from '../interface';
 import ApiServices from '../ApiServices';
 import RoutineElement from '../components/RoutineElement';
 import helperFunctions from '../helperfunctions';
-import UserContext from '../App';
+import { UserContext } from '../context/UserProvider';
 
 interface CreateRoutineProps { route: any, navigation: any }
 
@@ -38,12 +38,14 @@ const CreateRoutine: React.FC<CreateRoutineProps> = ({ route, navigation }) => {
   function handleSaveRoutine(): void {
     if (!routineName) {
       Alert.alert('Please give the routine a name');
+    } else if (!context.user) {
+      Alert.alert("Please login first")
     } else {
       const routineIds: IRoutineId[] = []
       routineArray.forEach(element => {
         routineIds.push({ id: element._id });
       });
-      ApiServices.postRoutine({ name: contexts, routineName, apparatus: routineArray[0].apparatus, routine: routineIds })
+      ApiServices.postRoutine({ name: context.user.firstName, routineName, apparatus: routineArray[0].apparatus, routine: routineIds })
       navigation.resetTo();
     }
   }

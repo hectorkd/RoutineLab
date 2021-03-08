@@ -1,17 +1,21 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 import { ILogIn } from '../interface';
 import ApiServices from '../ApiServices';
+import { UserContext } from '../context/UserProvider';
 
-interface LogInProps { setIsLoggedIn: any, setIsRegistering: any }
+interface LogInProps {
+  setIsRegistering: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 const initialLogInValue: ILogIn = {
   email: '',
   password: ''
 }
 
-const LogIn: React.FC<LogInProps> = ({ setIsLoggedIn, setIsRegistering }) => {
+const LogIn: React.FC<LogInProps> = ({ setIsRegistering }) => {
 
+  const { login } = useContext(UserContext)
   const [logInValues, setLogInValues] = useState(initialLogInValue)
 
   function handleChange(e: any, name: string): void {
@@ -28,7 +32,7 @@ const LogIn: React.FC<LogInProps> = ({ setIsLoggedIn, setIsRegistering }) => {
             Alert.alert("Sorry account doesn't exist");
             setLogInValues(initialLogInValue);
           } else {
-            setIsLoggedIn({ loggedIn: true, firstName: res.firstName, lastName: res.lastName, gymnasticsClub: res.gymnasticsClub, gymnast: res.gymnast })
+            login({ loggedIn: true, firstName: res.firstName, lastName: res.lastName, gymnasticsClub: res.gymnasticsClub, gymnast: res.gymnast })
           }
         })
       } catch (error) {
