@@ -11,5 +11,6 @@ router.post('/register', userController.addUser);
 router.post('/log_in', userController.logIn);
 
 router.post('/add_routine', routineController.postRoutine);
+router.get('/get_routines/:name', routineController.getRoutines);
 
 export default router;

@@ -3,8 +3,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import CreateRoutine from '../screens/CreateRoutine';
 import PickApparatus from '../screens/PickApparatus';
 import ApparatusElements from '../screens/ApparatusElements';
-import { Button } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { UserContext } from '../context/UserProvider';
+import { AntDesign } from '@expo/vector-icons';
 
 const Stack = createStackNavigator();
 
@@ -24,11 +25,12 @@ const AddRoutineStack: React.FC = () => {
           fontSize: 25,
         },
         headerRight: () => (
-          <Button
+          <TouchableOpacity
             onPress={logout}
-            title="Logout"
-            color="#fff"
-          />
+            style={styles.logout}
+          >
+            <AntDesign name="logout" size={24} color="white" />
+          </TouchableOpacity>
         ),
       }} />
       <Stack.Screen name="CREATE ROUTINE" component={CreateRoutine} options={{
@@ -41,11 +43,12 @@ const AddRoutineStack: React.FC = () => {
           fontSize: 25,
         },
         headerRight: () => (
-          <Button
+          <TouchableOpacity
             onPress={logout}
-            title="Logout"
-            color="#fff"
-          />
+            style={styles.logout}
+          >
+            <AntDesign name="logout" size={24} color="white" />
+          </TouchableOpacity>
         ),
       }} />
       <Stack.Screen name="ELEMENTS" component={ApparatusElements} options={{
@@ -58,15 +61,22 @@ const AddRoutineStack: React.FC = () => {
           fontSize: 25,
         },
         headerRight: () => (
-          <Button
+          <TouchableOpacity
             onPress={logout}
-            title="Logout"
-            color="#fff"
-          />
+            style={styles.logout}
+          >
+            <AntDesign name="logout" size={24} color="white" />
+          </TouchableOpacity>
         ),
       }} />
     </Stack.Navigator>
   )
 }
+
+const styles = StyleSheet.create({
+  logout: {
+    marginRight: 10,
+  }
+})
 
 export default AddRoutineStack;

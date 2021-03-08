@@ -1,7 +1,7 @@
+import { AntDesign } from '@expo/vector-icons';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useContext } from 'react';
-import { Button } from 'react-native';
-import { View, Text, SafeAreaView } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import { UserContext } from '../context/UserProvider';
 import CodeOfPoints from '../screens/CodeOfPoints';
 
@@ -23,15 +23,22 @@ const HomeStack: React.FC = () => {
           fontSize: 25,
         },
         headerRight: () => (
-          <Button
+          <TouchableOpacity
             onPress={logout}
-            title="Logout"
-            color="#fff"
-          />
+            style={styles.logout}
+          >
+            <AntDesign name="logout" size={24} color="white" />
+          </TouchableOpacity>
         ),
       }} />
     </Stack.Navigator>
   )
 }
+
+const styles = StyleSheet.create({
+  logout: {
+    marginRight: 10,
+  }
+})
 
 export default HomeStack;

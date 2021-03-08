@@ -45,8 +45,13 @@ const CreateRoutine: React.FC<CreateRoutineProps> = ({ route, navigation }) => {
       routineArray.forEach(element => {
         routineIds.push({ id: element._id });
       });
-      ApiServices.postRoutine({ name: context.user.firstName, routineName, apparatus: routineArray[0].apparatus, routine: routineIds })
-      navigation.resetTo();
+      ApiServices.postRoutine({ userFirstName: context.user.firstName, routineName, apparatus: apparatus, routine: routineIds }).then((res: any) => {
+        if (res.exists) {
+          Alert.alert('Sorry routine under this name already exists');
+        } else {
+          navigation.popToTop();
+        }
+      })
     }
   }
 

@@ -1,14 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import ApiServices from '../ApiServices';
+import { UserContext } from '../context/UserProvider';
+import { IPostRoutine } from '../interface';
 
 
 interface homeProps { navigation: any }
 
 const Home: React.FC<homeProps> = ({ navigation }) => {
 
-  const [routines, setRoutines] = useState<[]>([]);
+  const context = useContext(UserContext);
+
+  const [routines, setRoutines] = useState<IPostRoutine[]>([]);
   const [compRoutines, setCompRoutines] = useState<[]>([]);
+
+  useEffect(() => {
+    if (context.user?.firstName) {
+      ApiServices.getRoutines(context.user?.firstName).then(res => {
+        console.log(res);
+        setRoutines(res);
+      })
+    }
+  }, [])
+
+  console.log('routines --------------', routines);
 
   if (!routines.length) {
     return (

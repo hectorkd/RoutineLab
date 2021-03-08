@@ -67,7 +67,7 @@ export interface IRoutineId {
 }
 
 export interface IPostRoutine {
-  name: string,
+  userFirstName: string,
   routineName: string,
   apparatus: string,
   routine: IRoutineId[]

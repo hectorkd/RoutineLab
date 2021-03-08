@@ -34,7 +34,7 @@ function logIn(data: ILogIn): Promise<IUser | object> {
     .then(res => res.json());
 }
 
-function postRoutine(data: IPostRoutine): Promise<IPostRoutine> {
+function postRoutine(data: IPostRoutine): Promise<IPostRoutine | object> {
   return fetch(`${baseUrl}/add_routine`, {
     method: 'POST',
     headers: {
@@ -45,10 +45,21 @@ function postRoutine(data: IPostRoutine): Promise<IPostRoutine> {
     .then(res => res.json());
 }
 
+function getRoutines(name: string): Promise<IPostRoutine[]> {
+  return fetch(`${baseUrl}/get_routines/${name}`)
+    .then(res => {
+      return res.json()
+    })
+    .catch(res => {
+      console.log('error', res)
+    })
+}
+
 export default {
   getCodeOfPoints,
   getApparatusMoves,
   addUser,
   logIn,
   postRoutine,
+  getRoutines
 }

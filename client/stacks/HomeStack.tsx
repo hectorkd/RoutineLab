@@ -8,19 +8,10 @@ import SavedRoutines from '../screens/SavedRoutines';
 import CompetitionResults from '../screens/CompetitionResults';
 import CompetitionRoutines from '../screens/CompetitionRoutines';
 import CoachSuggestions from '../screens/CoachSuggestions';
-import { Button } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { UserContext } from '../context/UserProvider';
-
-// export type HomeStackNavigator = {
-//   HOME: undefined,
-//   "PICK APPARATUS": undefined,
-//   "CREATE ROUTINE": undefined,
-//   ELEMENTS: undefined,
-//   "SAVED ROUTINES": undefined,
-//   "COMPETITION ROUTINES": undefined,
-//   "COMPETITION RESULTS": undefined,
-//   "COACH SUGGESTIONS": undefined,
-// }
+import { AntDesign } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Stack = createStackNavigator();
 
@@ -38,11 +29,12 @@ const HomeStack: React.FC = () => {
           fontSize: 25,
         },
         headerRight: () => (
-          <Button
+          <TouchableOpacity
             onPress={logout}
-            title="Logout"
-            color="#fff"
-          />
+            style={styles.logout}
+          >
+            <AntDesign name="logout" size={24} color="white" />
+          </TouchableOpacity>
         ),
 
       }} />
@@ -56,11 +48,12 @@ const HomeStack: React.FC = () => {
           fontSize: 25,
         },
         headerRight: () => (
-          <Button
+          <TouchableOpacity
             onPress={logout}
-            title="Logout"
-            color="#fff"
-          />
+            style={styles.logout}
+          >
+            <AntDesign name="logout" size={24} color="white" />
+          </TouchableOpacity>
         ),
       }} />
       <Stack.Screen name="CREATE ROUTINE" component={CreateRoutine} options={{
@@ -73,11 +66,12 @@ const HomeStack: React.FC = () => {
           fontSize: 25,
         },
         headerRight: () => (
-          <Button
+          <TouchableOpacity
             onPress={logout}
-            title="Logout"
-            color="#fff"
-          />
+            style={styles.logout}
+          >
+            <AntDesign name="logout" size={24} color="white" />
+          </TouchableOpacity>
         ),
       }} />
       <Stack.Screen name="ELEMENTS" component={ApparatusElements} options={{
@@ -90,11 +84,12 @@ const HomeStack: React.FC = () => {
           fontSize: 25,
         },
         headerRight: () => (
-          <Button
+          <TouchableOpacity
             onPress={logout}
-            title="Logout"
-            color="#fff"
-          />
+            style={styles.logout}
+          >
+            <AntDesign name="logout" size={24} color="white" />
+          </TouchableOpacity>
         ),
       }} />
       <Stack.Screen name="SAVED ROUTINES" component={SavedRoutines} options={{
@@ -107,11 +102,12 @@ const HomeStack: React.FC = () => {
           fontSize: 25,
         },
         headerRight: () => (
-          <Button
+          <TouchableOpacity
             onPress={logout}
-            title="Logout"
-            color="#fff"
-          />
+            style={styles.logout}
+          >
+            <AntDesign name="logout" size={24} color="white" />
+          </TouchableOpacity>
         ),
       }} />
       <Stack.Screen name="COMPETITION ROUTINES" component={CompetitionResults} options={{
@@ -124,11 +120,12 @@ const HomeStack: React.FC = () => {
           fontSize: 20,
         },
         headerRight: () => (
-          <Button
+          <TouchableOpacity
             onPress={logout}
-            title="Logout"
-            color="#fff"
-          />
+            style={styles.logout}
+          >
+            <AntDesign name="logout" size={24} color="white" />
+          </TouchableOpacity>
         ),
       }} />
       <Stack.Screen name="COMPETITION RESULTS" component={CompetitionRoutines} options={{
@@ -141,11 +138,12 @@ const HomeStack: React.FC = () => {
           fontSize: 20,
         },
         headerRight: () => (
-          <Button
+          <TouchableOpacity
             onPress={logout}
-            title="Logout"
-            color="#fff"
-          />
+            style={styles.logout}
+          >
+            <AntDesign name="logout" size={24} color="white" />
+          </TouchableOpacity>
         ),
       }} />
       <Stack.Screen name="COACH SUGGESTIONS" component={CoachSuggestions} options={{
@@ -158,15 +156,22 @@ const HomeStack: React.FC = () => {
           fontSize: 20,
         },
         headerRight: () => (
-          <Button
+          <TouchableOpacity
             onPress={logout}
-            title="Logout"
-            color="#fff"
-          />
+            style={styles.logout}
+          >
+            <AntDesign name="logout" size={24} color="white" />
+          </TouchableOpacity>
         ),
       }} />
     </Stack.Navigator>
   )
 }
+
+const styles = StyleSheet.create({
+  logout: {
+    marginRight: 10,
+  }
+})
 
 export default HomeStack;

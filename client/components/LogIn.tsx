@@ -26,7 +26,6 @@ const LogIn: React.FC<LogInProps> = ({ setIsRegistering }) => {
     const { email, password } = logInValues;
     if (email && password) {
       try {
-        console.log('here')
         ApiServices.logIn(logInValues).then((res: any) => {
           if (res.exists) {
             Alert.alert("Sorry account doesn't exist");
