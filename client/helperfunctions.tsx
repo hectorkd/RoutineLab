@@ -19,6 +19,7 @@ function calculateRoutineStart(routine: IMove[]): IStartValue {
 
   const elementTotal = round(routine.reduce((acc: number, move: IMove) => { return acc + move.pointValue }, 0), 1);
 
+
   let requirmentsTotal: number = 0;
 
   if (routine.some(move => move.copGroup === '1')) requirmentsTotal += 0.5;
@@ -26,6 +27,11 @@ function calculateRoutineStart(routine: IMove[]): IStartValue {
   if (routine.some(move => move.copGroup === '3')) requirmentsTotal += 0.5;
   if (routine[routine.length - 1].pointValue === 0.3) requirmentsTotal += 0.3;
   if (routine[routine.length - 1].pointValue > 0.3) requirmentsTotal += 0.3;
+  if (routine[0].apparatus === 'Floor') {
+    if (!routine.some(move => move.isDoubleRotation === true)) {
+      requirmentsTotal -= 0.3;
+    }
+  }
 
   const totalStartValue = round((eScore + requirmentsTotal + elementTotal), 1);
 

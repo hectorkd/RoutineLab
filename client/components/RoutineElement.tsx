@@ -6,25 +6,48 @@ interface RoutineElementProps { move: IMove, index: number, apparatus: string }
 
 const RoutineElement: React.FC<RoutineElementProps> = ({ move, index, apparatus }) => {
 
-  return (
-    <View style={styles.container} >
-      <View style={styles.moveContainer}>
-        <View style={styles.numberContainer}>
-          <Text style={styles.number}>{index}.</Text>
-        </View>
-        <View style={styles.infoContainer}>
-          <View style={styles.move}>
-            <View style={styles.left}>
-              <Text style={styles.letter}>{move.letterValue}</Text>
-            </View>
-            <View style={styles.right}>
-              <Text>{move.name}</Text>
+  if (apparatus === 'Vault') {
+    return (
+      <View style={styles.vaultContainer}>
+        <View style={styles.vaultMoveContainer}>
+          <View style={styles.vaultNumberContainer}>
+            <Text style={styles.number}>{index === 1 ? 'First vault:' : 'Second vault:'}</Text>
+          </View>
+          <View style={styles.vaultInfoContainer}>
+            <View style={styles.move}>
+              <View style={styles.left}>
+                <Text style={styles.letter}>{move.pointValue}</Text>
+              </View>
+              <View style={styles.right}>
+                <Text>{move.name}</Text>
+              </View>
             </View>
           </View>
         </View>
       </View>
-    </View >
-  )
+    )
+  } else {
+
+    return (
+      <View style={styles.container} >
+        <View style={styles.moveContainer}>
+          <View style={styles.numberContainer}>
+            <Text style={styles.number}>{index}.</Text>
+          </View>
+          <View style={styles.infoContainer}>
+            <View style={styles.move}>
+              <View style={styles.left}>
+                <Text style={styles.letter}>{move.letterValue}</Text>
+              </View>
+              <View style={styles.right}>
+                <Text>{move.name}</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View >
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -93,6 +116,30 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 20,
+  },
+  vaultMoveContainer: {
+    height: 50,
+    width: 400,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    // borderWidth: 2,
+    // borderColor: 'yellow',
+  },
+  vaultNumberContainer: {
+    // backgroundColor: 'pink',
+    width: 400,
+    marginBottom: 20,
+  },
+  vaultInfoContainer: {
+    // backgroundColor: 'pink',
+    width: 400
+  },
+  vaultContainer: {
+    width: '100%',
+    height: 120,
+    // justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: 'green'
   }
 })
 

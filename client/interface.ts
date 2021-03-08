@@ -51,5 +51,20 @@ export interface IUser {
   lastName: string,
   gymnasticsClub: string,
   gymnast: boolean,
+}
+
+export interface ILogIn {
   email: string,
+  password: string
+}
+
+export interface IRoutineId {
+  id: string,
+}
+
+export interface IPostRoutine {
+  name: string,
+  routineName: string,
+  apparatus: string,
+  routine: IRoutineId[]
 }

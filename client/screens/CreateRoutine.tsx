@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, TextInput } from 'react-native'
+import React, { useState, useEffect, useContext } from 'react'
+import { View, Text, StyleSheet, TextInput, Alert } from 'react-native'
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import { IMove, IStartValue } from '../interface';
+import { IMove, IStartValue, IRoutineId } from '../interface';
 import ApiServices from '../ApiServices';
 import RoutineElement from '../components/RoutineElement';
 import helperFunctions from '../helperfunctions';
+import UserContext from '../App';
 
-interface createRoutineProps { route: any, navigation: any }
+interface CreateRoutineProps { route: any, navigation: any }
 
-const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
+const CreateRoutine: React.FC<CreateRoutineProps> = ({ route, navigation }) => {
 
   const { apparatus } = route.params;
 
@@ -18,6 +19,7 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
   const [startValue, setStartValue] = useState<IStartValue>({ eScore: '0.0', requirmentsTotal: '0.0', elementTotal: '0.0', totalStartValue: '0.0' });
   const [vaultStartValue, setVaultStartValue] = useState<IStartValue[]>([{ eScore: '10.0', requirmentsTotal: '0.0', elementTotal: '0.0', totalStartValue: '0.0' }, { eScore: '10.0', requirmentsTotal: '0.0', elementTotal: '0.0', totalStartValue: '0.0' }]);
 
+  const context = useContext(UserContext);
 
   useEffect(() => {
     ApiServices.getApparatusMoves(apparatus).then(res => setElements(res));
@@ -32,6 +34,19 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
       setVaultStartValue(start);
     }
   }, [routineArray])
+
+  function handleSaveRoutine(): void {
+    if (!routineName) {
+      Alert.alert('Please give the routine a name');
+    } else {
+      const routineIds: IRoutineId[] = []
+      routineArray.forEach(element => {
+        routineIds.push({ id: element._id });
+      });
+      ApiServices.postRoutine({ name: contexts, routineName, apparatus: routineArray[0].apparatus, routine: routineIds })
+      navigation.resetTo();
+    }
+  }
 
   function flatListSeperator(): any {
     return (
@@ -50,6 +65,7 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
             {
               routineArray.length !== 0 && <FlatList
                 data={routineArray}
+                style={styles.vaultList}
                 renderItem={(data) => <TouchableOpacity
                   onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray, isChanging: true, index: data.index })}
                 >
@@ -68,7 +84,7 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
                     ? <View style={styles.buttonContainer}>
                       <TouchableOpacity
                         style={[styles.twoButtons, styles.buttonSpace]}
-                        onPress={() => navigation.popToTop()}
+                        onPress={handleSaveRoutine}
                       >
                         <Text style={styles.addButtonText}>Save routine</Text>
                       </TouchableOpacity>
@@ -82,7 +98,7 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
                     : <View style={styles.buttonContainer}>
                       <TouchableOpacity
                         style={styles.addButton}
-                        onPress={() => navigation.popToTop()}
+                        onPress={handleSaveRoutine}
                       >
                         <Text style={styles.addButtonText}>Save vault{routineArray.length ? 's' : ''}</Text>
                       </TouchableOpacity>
@@ -111,7 +127,7 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
                 <Text style={styles.textBold}>{vaultStartValue[0].elementTotal}</Text>
               </View>
             </View>
-            <View style={styles.routineAdditionDisplay}>
+            <View style={styles.vaultRoutineAdditionDisplay}>
               <Text style={[styles.totalValueNum, styles.colorFour]}>FIRST VAULT START: </Text>
               <Text style={styles.totalValueNum}>{vaultStartValue[0].totalStartValue}</Text>
             </View>
@@ -176,7 +192,7 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
                     : <View style={styles.buttonContainer}>
                       <TouchableOpacity
                         style={[styles.twoButtons, styles.buttonSpace]}
-                        onPress={() => navigation.popToTop()}
+                        onPress={handleSaveRoutine}
                       >
                         <Text style={styles.addButtonText}>Save routine</Text>
                       </TouchableOpacity>
@@ -191,7 +207,7 @@ const CreateRoutine: React.FC<createRoutineProps> = ({ route, navigation }) => {
                 : <View style={styles.buttonContainer}>
                   <TouchableOpacity
                     style={styles.addButton}
-                    onPress={() => navigation.popToTop()}
+                    onPress={handleSaveRoutine}
                   >
                     <Text style={styles.addButtonText}>Save routine</Text>
                   </TouchableOpacity>
@@ -351,7 +367,25 @@ const styles = StyleSheet.create({
     color: 'grey',
   },
   vaultBottom: {
-    flex: 2
+    flex: 3
+  },
+  vaultMiddle: {
+    flex: 8,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: 'pink',
+  },
+  vaultList: {
+    // backgroundColor: 'green',
+    marginTop: 80,
+    marginBottom: 20
+  },
+  vaultRoutineAdditionDisplay: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20
   }
 })
 

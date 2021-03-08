@@ -1,16 +1,51 @@
-import React from 'react'
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import React, { useState } from 'react'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
+import { ILogIn } from '../interface';
+import ApiServices from '../ApiServices';
 
-interface LogInProps { handleLogIn: any, setIsRegistering: any }
+interface LogInProps { setIsLoggedIn: any, setIsRegistering: any }
 
-const LogIn: React.FC<LogInProps> = ({ handleLogIn, setIsRegistering }) => {
+const initialLogInValue: ILogIn = {
+  email: '',
+  password: ''
+}
+
+const LogIn: React.FC<LogInProps> = ({ setIsLoggedIn, setIsRegistering }) => {
+
+  const [logInValues, setLogInValues] = useState(initialLogInValue)
+
+  function handleChange(e: any, name: string): void {
+    setLogInValues({ ...logInValues, [name]: e });
+  }
+
+  function handleSubmit(): void {
+    const { email, password } = logInValues;
+    if (email && password) {
+      try {
+        console.log('here')
+        ApiServices.logIn(logInValues).then((res: any) => {
+          if (res.exists) {
+            Alert.alert("Sorry account doesn't exist");
+            setLogInValues(initialLogInValue);
+          } else {
+            setIsLoggedIn({ loggedIn: true, firstName: res.firstName, lastName: res.lastName, gymnasticsClub: res.gymnasticsClub, gymnast: res.gymnast })
+          }
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    } else {
+      Alert.alert('Please fill in all fields');
+    }
+  }
+
   return (
     <View>
-      <TextInput style={styles.inputBox} placeholder="Email"></TextInput>
-      <TextInput style={styles.inputBox} placeholder="Password"></TextInput>
+      <TextInput style={styles.inputBox} value={logInValues.email} onChangeText={e => handleChange(e, 'email')} placeholder="Email"></TextInput>
+      <TextInput style={styles.inputBox} value={logInValues.password} onChangeText={e => handleChange(e, 'password')} textContentType='password' secureTextEntry={true} placeholder="Password"></TextInput>
       <View style={styles.buttonCenter}>
         <TouchableOpacity
-          onPress={handleLogIn}>
+          onPress={handleSubmit}>
           <View style={styles.logInButton}>
             <Text style={styles.buttonText}>Log in</Text>
           </View>

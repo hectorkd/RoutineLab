@@ -23,65 +23,70 @@ const Home: React.FC<homeProps> = ({ navigation }) => {
   } else {
     return (
       <View style={styles.container}>
-        <View style={styles.homeDisplayTop}>
-          <Text style={styles.blueText}>OVERALL START:</Text>
-          <View style={styles.center}>
-            <TouchableOpacity
-              onPress={() => { }}
-            >
-              <View style={[styles.boxDisplay, styles.shadow]}>
-                <Text style={styles.blueText}>79.0</Text>
+        {
+          !compRoutines.length
+            ? <View />
+            : <View style={styles.homeDisplayTop}>
+              <Text style={styles.blueText}>OVERALL START:</Text>
+              <View style={styles.center}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('COMPETITION ROUTINES')}
+                >
+                  <View style={[styles.boxDisplay, styles.shadow]}>
+                    <Text style={styles.blueText}>79.0</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.blueText}>BEST APPARATUS:</Text>
-          <View style={styles.center}>
-            <TouchableOpacity
-              onPress={() => { }}
-            >
-              <View style={[styles.boxDisplay, styles.shadow]}>
-                <Text style={styles.blueText}>FLOOR</Text>
+              <Text style={styles.blueText}>BEST APPARATUS:</Text>
+              <View style={styles.center}>
+                <TouchableOpacity
+                  onPress={() => { }}
+                >
+                  <View style={[styles.boxDisplay, styles.shadow]}>
+                    <Text style={styles.blueText}>FLOOR</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.blueText}>WEAKEST APPARATUS:</Text>
-          <View style={styles.center}>
-            <TouchableOpacity
-              onPress={() => { }}
-            >
-              <View style={[styles.boxDisplay, styles.shadow]}>
-                <Text style={styles.blueText}>VAULT</Text>
+              <Text style={styles.blueText}>WEAKEST APPARATUS:</Text>
+              <View style={styles.center}>
+                <TouchableOpacity
+                  onPress={() => { }}
+                >
+                  <View style={[styles.boxDisplay, styles.shadow]}>
+                    <Text style={styles.blueText}>VAULT</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
-            </TouchableOpacity>
-          </View>
-        </View>
+            </View>
+        }
+
         <View style={styles.homeDisplayBottom}>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
-              onPress={() => { }}
+              onPress={() => navigation.navigate('SAVED ROUTINES')}
             >
               <View style={[styles.buttons, styles.shadow]}>
                 <Text style={styles.blueButtonText}>SAVED ROUTINES</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => { }}
+              onPress={() => navigation.navigate('COMPETITION ROUTINES')}
             >
               <View style={[styles.buttons, styles.shadow]}>
-                <Text style={styles.blueButtonText}>COMPETITION routines</Text>
+                <Text style={styles.blueButtonText}>COMPETITION ROUTINES</Text>
               </View>
             </TouchableOpacity>
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
-              onPress={() => { }}
+              onPress={() => navigation.navigate('COMPETITION RESULTS')}
             >
               <View style={[styles.buttons, styles.shadow]}>
                 <Text style={styles.blueButtonText}>COMPETITION RESULTS</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => { }}
+              onPress={() => navigation.navigate('COACH SUGGESTIONS')}
             >
               <View style={[styles.buttons, styles.shadow]}>
                 <Text style={styles.blueButtonText}>COACH SUGGESTIONS</Text>

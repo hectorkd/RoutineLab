@@ -1,4 +1,4 @@
-import { IMove, IPostUser, IUser } from './interface';
+import { IMove, IPostUser, IUser, ILogIn, IPostRoutine } from './interface';
 
 const baseUrl = 'http://192.168.1.208:3000';
 
@@ -12,8 +12,19 @@ function getApparatusMoves(apparatus: string): Promise<IMove[]> {
     .then(res => res.json());
 }
 
-function addUser(data: IPostUser): Promise<IUser> {
+function addUser(data: IPostUser): Promise<IUser | object> {
   return fetch(`${baseUrl}/register`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then(res => res.json())
+}
+
+function logIn(data: ILogIn): Promise<IUser | object> {
+  return fetch(`${baseUrl}/log_in`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -23,8 +34,8 @@ function addUser(data: IPostUser): Promise<IUser> {
     .then(res => res.json());
 }
 
-function checkEmail(data: IPostUser): Promise<IUser[]> {
-  return fetch(`${baseUrl}/check_email`, {
+function postRoutine(data: IPostRoutine): Promise<IPostRoutine> {
+  return fetch(`${baseUrl}/add_routine`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -38,5 +49,6 @@ export default {
   getCodeOfPoints,
   getApparatusMoves,
   addUser,
-  checkEmail
+  logIn,
+  postRoutine,
 }

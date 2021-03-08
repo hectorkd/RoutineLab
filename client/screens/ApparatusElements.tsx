@@ -43,8 +43,7 @@ const ApparatusElements: React.FC<ApparatusElementsProps> = ({ route, navigation
           <TouchableOpacity
             onPress={() => handlePress(data.item)}
           >
-            <IndividualMove move={data.item}
-            />
+            <IndividualMove move={data.item} />
           </TouchableOpacity>
         )}
         keyExtractor={item => item._id}

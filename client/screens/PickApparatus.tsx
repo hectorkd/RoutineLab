@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import UserContext from '../App';
 
 interface addRoutineProps { navigation: any }
 
@@ -8,17 +9,19 @@ const AddRoutine: React.FC<addRoutineProps> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
+        {/* <UserContext.Comsumer> */}
         <TouchableOpacity
           style={styles.apparatusBox}
           onPress={() => navigation.navigate('CREATE ROUTINE', { apparatus: "Floor" })}
         >
-          <Text style={styles.text}>Floor</Text>
+          <Image style={styles.icons} source={require('../assets/Floor.png')}></Image>
         </TouchableOpacity>
+        {/* </UserContext.Comsumer> */}
         <TouchableOpacity
           style={styles.apparatusBox}
           onPress={() => navigation.navigate('CREATE ROUTINE', { apparatus: "Pommel Horse" })}
         >
-          <Text style={styles.text}>Pommel</Text>
+          <Image style={styles.icons} source={require('../assets/Pommel.png')}></Image>
         </TouchableOpacity>
       </View>
       <View style={styles.row}>
@@ -26,13 +29,13 @@ const AddRoutine: React.FC<addRoutineProps> = ({ navigation }) => {
           style={styles.apparatusBox}
           onPress={() => navigation.navigate('CREATE ROUTINE', { apparatus: "Rings" })}
         >
-          <Text style={styles.text}>Rings</Text>
+          <Image style={styles.icons} source={require('../assets/Rings.png')}></Image>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.apparatusBox}
           onPress={() => navigation.navigate('CREATE ROUTINE', { apparatus: "Vault" })}
         >
-          <Text style={styles.text}>Vault</Text>
+          <Image style={styles.icons} source={require('../assets/Vault.png')}></Image>
         </TouchableOpacity>
       </View>
       <View style={styles.row}>
@@ -40,13 +43,13 @@ const AddRoutine: React.FC<addRoutineProps> = ({ navigation }) => {
           style={styles.apparatusBox}
           onPress={() => navigation.navigate('CREATE ROUTINE', { apparatus: "Parallel Bars" })}
         >
-          <Text style={styles.text}>P-bars</Text>
+          <Image style={styles.icons} source={require('../assets/Pbars.png')}></Image>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.apparatusBox}
           onPress={() => navigation.navigate('CREATE ROUTINE', { apparatus: "Horizontal Bars" })}
         >
-          <Text style={styles.text}>H-bar</Text>
+          <Image style={styles.icons} source={require('../assets/Bar.png')}></Image>
         </TouchableOpacity>
       </View>
     </View>
@@ -76,10 +79,13 @@ const styles = StyleSheet.create({
   apparatusBox: {
     width: 150,
     height: 150,
-    borderColor: '#89BFFF',
-    borderWidth: 5,
+    backgroundColor: '#89BFFF',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  icons: {
+    width: 100,
+    height: 100
   }
 })
 
