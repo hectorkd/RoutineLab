@@ -1,6 +1,6 @@
 import { IMove, IPostUser, IUser, ILogIn, IPostRoutine } from './interface';
 
-const baseUrl = 'http://192.168.1.208:3000';
+const baseUrl = 'http://10.10.22.29:3000';
 
 function getCodeOfPoints(): Promise<IMove[]> {
   return fetch(`${baseUrl}/code_of_points`)

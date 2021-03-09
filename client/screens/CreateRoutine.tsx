@@ -2,10 +2,15 @@ import React, { useState, useEffect, useContext } from 'react'
 import { View, Text, StyleSheet, TextInput, Alert } from 'react-native'
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { IMove, IStartValue, IRoutineId } from '../interface';
+import SingleAddButton from '../components/SingleAddButton';
 import ApiServices from '../ApiServices';
 import RoutineElement from '../components/RoutineElement';
 import helperFunctions from '../helperfunctions';
 import { UserContext } from '../context/UserProvider';
+import SingleSaveButton from '../components/SingleSaveButton';
+import DoubleAddButton from '../components/DoubleAddButton';
+import VaultStartValue from '../components/VaultStartValue';
+import RoutineStartValue from '../components/RoutineStartValue';
 
 interface CreateRoutineProps { route: any, navigation: any }
 
@@ -88,75 +93,15 @@ const CreateRoutine: React.FC<CreateRoutineProps> = ({ route, navigation }) => {
               routineArray.length !== 0
                 ? (
                   routineArray.length < 2
-                    ? <View style={styles.buttonContainer}>
-                      <TouchableOpacity
-                        style={[styles.twoButtons, styles.buttonSpace]}
-                        onPress={handleSaveRoutine}
-                      >
-                        <Text style={styles.addButtonText}>Save routine</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={styles.twoButtons}
-                        onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray, isChanging: false })}
-                      >
-                        <Text style={styles.addButtonText}>Add element</Text>
-                      </TouchableOpacity>
-                    </View>
-                    : <View style={styles.buttonContainer}>
-                      <TouchableOpacity
-                        style={styles.addButton}
-                        onPress={handleSaveRoutine}
-                      >
-                        <Text style={styles.addButtonText}>Save vault{routineArray.length ? 's' : ''}</Text>
-                      </TouchableOpacity>
-                    </View>
+                    ? <DoubleAddButton handleSaveRoutine={handleSaveRoutine} navigation={navigation} elements={elements} apparatus={apparatus} setRoutineArray={setRoutineArray} routineArray={routineArray} isChanging={false} />
+                    : <SingleSaveButton routineArray={routineArray} apparatus={apparatus} handleSaveRoutine={handleSaveRoutine} />
                 )
-                : <View style={styles.buttonContainer}>
-                  <TouchableOpacity
-                    style={styles.addButton}
-                    onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray, isChanging: false })}
-                  >
-                    <Text style={styles.addButtonText}>Add vault</Text>
-                  </TouchableOpacity>
-                </View>
+                : <SingleAddButton navigation={navigation} elements={elements} apparatus={apparatus} setRoutineArray={setRoutineArray} routineArray={routineArray} isChanging={false} />
             }
           </View>
         </View>
         <View style={styles.vaultBottom}>
-          <View>
-            <View style={styles.routineAdditionDisplay}>
-              <View style={[styles.additionBox, styles.colorOne]}>
-                <Text style={styles.textBold}>{vaultStartValue[0].eScore}</Text>
-              </View>
-
-              <Text style={styles.addSign}>+</Text>
-              <View style={[styles.additionBox, styles.colorThree]}>
-                <Text style={styles.textBold}>{vaultStartValue[0].elementTotal}</Text>
-              </View>
-            </View>
-            <View style={styles.vaultRoutineAdditionDisplay}>
-              <Text style={[styles.totalValueNum, styles.colorFour]}>FIRST VAULT START: </Text>
-              <Text style={styles.totalValueNum}>{vaultStartValue[0].totalStartValue}</Text>
-            </View>
-            {
-              routineArray.length === 2 && <View><View style={styles.routineAdditionDisplay}>
-                <View style={[styles.additionBox, styles.colorOne]}>
-                  <Text style={styles.textBold}>{vaultStartValue[1].eScore}</Text>
-                </View>
-
-                <Text style={styles.addSign}>+</Text>
-                <View style={[styles.additionBox, styles.colorThree]}>
-                  <Text style={styles.textBold}>{vaultStartValue[1].elementTotal}</Text>
-                </View>
-              </View>
-                <View style={styles.routineAdditionDisplay}>
-                  <Text style={[styles.totalValueNum, styles.colorFour]}>SECOND VAULT START: </Text>
-                  <Text style={styles.totalValueNum}>{vaultStartValue[1].totalStartValue}</Text>
-                </View>
-              </View>
-            }
-
-          </View>
+          <VaultStartValue vaultStartValue={vaultStartValue} routineArray={routineArray} />
         </View>
       </View>
     )
@@ -188,58 +133,15 @@ const CreateRoutine: React.FC<CreateRoutineProps> = ({ route, navigation }) => {
               routineArray.length < 10
                 ? (
                   routineArray.length === 0
-                    ? <View style={styles.buttonContainer}>
-                      <TouchableOpacity
-                        style={styles.addButton}
-                        onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray, isChanging: false })}
-                      >
-                        <Text style={styles.addButtonText}>Add element</Text>
-                      </TouchableOpacity>
-                    </View>
-                    : <View style={styles.buttonContainer}>
-                      <TouchableOpacity
-                        style={[styles.twoButtons, styles.buttonSpace]}
-                        onPress={handleSaveRoutine}
-                      >
-                        <Text style={styles.addButtonText}>Save routine</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={styles.twoButtons}
-                        onPress={() => navigation.navigate('ELEMENTS', { elements, apparatus: apparatus, setRoutineArray: setRoutineArray, routine: routineArray, isChanging: false })}
-                      >
-                        <Text style={styles.addButtonText}>Add element</Text>
-                      </TouchableOpacity>
-                    </View>
+                    ? <SingleAddButton navigation={navigation} elements={elements} apparatus={apparatus} setRoutineArray={setRoutineArray} routineArray={routineArray} isChanging={false} />
+                    : <DoubleAddButton handleSaveRoutine={handleSaveRoutine} navigation={navigation} elements={elements} apparatus={apparatus} setRoutineArray={setRoutineArray} routineArray={routineArray} isChanging={false} />
                 )
-                : <View style={styles.buttonContainer}>
-                  <TouchableOpacity
-                    style={styles.addButton}
-                    onPress={handleSaveRoutine}
-                  >
-                    <Text style={styles.addButtonText}>Save routine</Text>
-                  </TouchableOpacity>
-                </View>
+                : <SingleSaveButton routineArray={routineArray} apparatus={apparatus} handleSaveRoutine={handleSaveRoutine} />
             }
           </View>
         </View>
         <View style={styles.bottom}>
-          <View style={styles.routineAdditionDisplay}>
-            <View style={[styles.additionBox, styles.colorOne]}>
-              <Text style={styles.textBold}>{startValue.eScore}</Text>
-            </View>
-            <Text style={styles.addSign}>+</Text>
-            <View style={[styles.additionBox, styles.colorTwo]}>
-              <Text style={styles.textBold}>{startValue.requirmentsTotal}</Text>
-            </View>
-            <Text style={styles.addSign}>+</Text>
-            <View style={[styles.additionBox, styles.colorThree]}>
-              <Text style={styles.textBold}>{startValue.elementTotal}</Text>
-            </View>
-          </View>
-          <View style={styles.routineAdditionDisplay}>
-            <Text style={[styles.totalValueNum, styles.colorFour]}>START VALUE: </Text>
-            <Text style={styles.totalValueNum}>{startValue.totalStartValue}</Text>
-          </View>
+          <RoutineStartValue startValue={startValue} />
         </View>
       </View >
     )
@@ -260,38 +162,6 @@ const styles = StyleSheet.create({
     width: 400,
     padding: 10,
     borderRadius: 15,
-  },
-  addButton: {
-    borderColor: '#89BFFF',
-    backgroundColor: '#89BFFF',
-    borderWidth: 2,
-    height: 50,
-    width: 400,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 15,
-  },
-  addButtonText: {
-    color: 'white',
-    fontSize: 20,
-    fontWeight: '800',
-  },
-  element: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    width: 400,
-    height: 50,
-  },
-  totalValue: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'grey',
-  },
-  totalValueNum: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    color: 'orange',
   },
   top: {
     flex: 1,
@@ -314,65 +184,6 @@ const styles = StyleSheet.create({
   elementList: {
     marginTop: 10,
   },
-  additionBox: {
-    borderWidth: 2,
-    height: 20,
-    width: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 3,
-  },
-  routineAdditionDisplay: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  addSign: {
-    marginLeft: 5,
-    marginRight: 5,
-    fontSize: 15,
-    color: 'grey'
-  },
-  twoButtons: {
-    borderColor: '#89BFFF',
-    backgroundColor: '#89BFFF',
-    borderWidth: 2,
-    height: 50,
-    width: 180,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 15,
-    marginTop: 10,
-  },
-  twoButtonContainer: {
-    flexDirection: 'row',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    width: '100%',
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    // backgroundColor: 'yellow',
-  },
-  buttonSpace: {
-    marginRight: 20,
-  },
-  textBold: {
-    fontWeight: 'bold',
-  },
-  colorOne: {
-    borderColor: 'grey',
-  },
-  colorTwo: {
-    borderColor: '#96FF33',
-  },
-  colorThree: {
-    borderColor: 'pink',
-  },
-  colorFour: {
-    color: 'grey',
-  },
   vaultBottom: {
     flex: 3
   },
@@ -388,12 +199,6 @@ const styles = StyleSheet.create({
     marginTop: 80,
     marginBottom: 20
   },
-  vaultRoutineAdditionDisplay: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20
-  }
 })
 
 export default CreateRoutine;
