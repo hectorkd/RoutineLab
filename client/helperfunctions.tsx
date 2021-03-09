@@ -1,7 +1,6 @@
 import { IMove, IPostRoutine, IStartValue, ISavedRoutines } from './interface';
 
 function calculateRoutineStart(routine: IMove[]): IStartValue {
-  // const eScoreDictionary: object = { '0': 0, '1': 2.0, '2': 2.0, '3': 4.0, '4': 4.0, '5': 6.0, '6': 6.0, '7': 10.0, '8': 10.0, '9': 10.0, '10': 10.0 }
   const length = routine.length;
   let eScore: number = 0;
 

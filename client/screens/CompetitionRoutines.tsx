@@ -10,12 +10,11 @@ interface CompetitionRoutinesProps { navigation: any, route: any }
 
 const CompetitionRoutines: React.FC<CompetitionRoutinesProps> = ({ navigation, route }) => {
 
-  const { overallStart, bestApparatus, weakestApparatus } = route.params
+  const { overallStart } = route.params
 
   const context = useContext(UserContext);
 
   const [compRoutines, setCompRoutines] = useState<IPostRoutine[]>([]);
-  const [startValues, setStartValues] = useState<string>('0.0');
 
   useEffect(() => {
     if (context.user?.firstName) {

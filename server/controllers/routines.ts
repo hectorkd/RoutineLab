@@ -41,9 +41,13 @@ async function updateRoutines(req: Request, res: Response): Promise<void> {
     console.log({ apparatus });
     const [changeToFalse]: IRoutine[] = await Routine.find({ apparatus, isCompRoutine: true });
     if (changeToFalse) {
-      if (_id === changeToFalse?._id) {
+      console.log('you are here')
+      console.log('changetofalse', changeToFalse, _id)
+      if (changeToFalse?._id == _id) {
+        console.log('------------', _id)
         await Routine.findByIdAndUpdate({ _id: changeToFalse._id }, { isCompRoutine: !changeToFalse.isCompRoutine });
       } else {
+        await Routine.findByIdAndUpdate({ _id: changeToFalse._id }, { isCompRoutine: !changeToFalse.isCompRoutine });
         await Routine.findByIdAndUpdate({ _id }, { isCompRoutine: !isCompRoutine });
       }
     } else {
@@ -59,4 +63,17 @@ async function updateRoutines(req: Request, res: Response): Promise<void> {
   }
 }
 
-export default { postRoutine, getRoutines, updateRoutines }
+async function getCompRoutines(req: Request, res: Response): Promise<void> {
+  try {
+    const { name } = req.params;
+    const compRoutines: IRoutine[] = await Routine.find({ isCompRoutine: true, userFirstName: name });
+    res.status(200);
+    res.send(compRoutines);
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+    res.send('Could not find competition routines');
+  }
+}
+
+export default { postRoutine, getRoutines, updateRoutines, getCompRoutines }

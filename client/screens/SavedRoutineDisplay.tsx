@@ -1,6 +1,8 @@
 import React from 'react'
 import { View, Text, StyleSheet, FlatList } from 'react-native'
 import RoutineElement from '../components/RoutineElement';
+import RoutineStartValue from '../components/RoutineStartValue';
+import VaultStartValue from '../components/VaultStartValue';
 import { IMove } from '../interface';
 
 interface CreateRoutineProps { route: any }
@@ -72,25 +74,26 @@ const SavedRoutineDisplay: React.FC<CreateRoutineProps> = ({ route }) => {
                 </View>
               }
             </View>
-            : <View style={styles.bottom}>
-              <View style={styles.routineAdditionDisplay}>
-                <View style={[styles.additionBox, styles.colorOne]}>
-                  <Text style={styles.textBold}>{startValue.eScore}</Text>
-                </View>
-                <Text style={styles.addSign}>+</Text>
-                <View style={[styles.additionBox, styles.colorTwo]}>
-                  <Text style={styles.textBold}>{startValue.requirmentsTotal}</Text>
-                </View>
-                <Text style={styles.addSign}>+</Text>
-                <View style={[styles.additionBox, styles.colorThree]}>
-                  <Text style={styles.textBold}>{startValue.elementTotal}</Text>
-                </View>
-              </View>
-              <View style={styles.routineAdditionDisplay}>
-                <Text style={[styles.totalValueNum, styles.colorFour]}>START VALUE: </Text>
-                <Text style={styles.totalValueNum}>{startValue.totalStartValue}</Text>
-              </View>
-            </View>
+            : <RoutineStartValue startValue={startValue} />
+          // <View style={styles.bottom}>
+          //   <View style={styles.routineAdditionDisplay}>
+          //     <View style={[styles.additionBox, styles.colorOne]}>
+          //       <Text style={styles.textBold}>{startValue.eScore}</Text>
+          //     </View>
+          //     <Text style={styles.addSign}>+</Text>
+          //     <View style={[styles.additionBox, styles.colorTwo]}>
+          //       <Text style={styles.textBold}>{startValue.requirmentsTotal}</Text>
+          //     </View>
+          //     <Text style={styles.addSign}>+</Text>
+          //     <View style={[styles.additionBox, styles.colorThree]}>
+          //       <Text style={styles.textBold}>{startValue.elementTotal}</Text>
+          //     </View>
+          //   </View>
+          //   <View style={styles.routineAdditionDisplay}>
+          //     <Text style={[styles.totalValueNum, styles.colorFour]}>START VALUE: </Text>
+          //     <Text style={styles.totalValueNum}>{startValue.totalStartValue}</Text>
+          //   </View>
+          // </View>
         }
       </View >
     </View>

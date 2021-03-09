@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useContext } from 'react';
-import { Alert, SectionList, TouchableOpacity } from 'react-native';
+import { Alert, SectionList } from 'react-native';
 import { View, Text, StyleSheet } from 'react-native'
 import ApiServices from '../ApiServices';
 import IndividualSavedRoutines from '../components/IndividualSavedRoutines';
@@ -27,7 +27,7 @@ const SavedRoutines: React.FC<SavedRoutinesProps> = ({ navigation }) => {
         [
           {
             text: "Cancel",
-            onPress: () => console.log("Cancel add"),
+            onPress: () => { },
             style: "cancel"
           },
           {
@@ -44,7 +44,6 @@ const SavedRoutines: React.FC<SavedRoutinesProps> = ({ navigation }) => {
       ApiServices.addToCompRoutines(routine).then(res => {
         setSavedRoutines(res);
       })
-      console.log(routine);
     }
   }
 
@@ -55,6 +54,12 @@ const SavedRoutines: React.FC<SavedRoutinesProps> = ({ navigation }) => {
       })
     }
   }, [])
+
+  function listSeperator(): JSX.Element {
+    return (
+      <View style={styles.elementList}></View>
+    )
+  }
 
   return (
     <View style={styles.container}>
@@ -67,6 +72,7 @@ const SavedRoutines: React.FC<SavedRoutinesProps> = ({ navigation }) => {
             <Text style={styles.header}>{title}</Text>
           </View>
         )}
+        ItemSeparatorComponent={listSeperator}
         ListEmptyComponent={<Text>No saved routines for this apparatus</Text>}
       />
     </View>
@@ -90,6 +96,9 @@ const styles = StyleSheet.create({
     fontSize: 50,
     color: '#89BFFF'
   },
+  elementList: {
+    marginBottom: 5,
+  }
 })
 
 export default SavedRoutines;
