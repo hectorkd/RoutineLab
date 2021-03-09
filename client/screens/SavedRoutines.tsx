@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useContext } from 'react';
-import { SectionList, TouchableOpacity } from 'react-native';
+import { Alert, SectionList, TouchableOpacity } from 'react-native';
 import { View, Text, StyleSheet } from 'react-native'
 import ApiServices from '../ApiServices';
 import IndividualSavedRoutines from '../components/IndividualSavedRoutines';
@@ -65,6 +65,38 @@ const SavedRoutines: React.FC<SavedRoutinesProps> = ({ navigation }) => {
     },
   ]
 
+  function handleAddToCompRoutine(routine: IPostRoutine): void {
+    console.log('You are here')
+    const apparatusFilter = savedRoutines.filter(IndividualRoutine => IndividualRoutine.apparatus === routine.apparatus);
+    if (apparatusFilter.some(element => element.isCompRoutine === true)) {
+      Alert.alert(
+        "Are you sure",
+        "Check",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel add"),
+            style: "cancel"
+          },
+          {
+            text: "OK", onPress: () => {
+              ApiServices.addToCompRoutines(routine).then(res => {
+                setSavedRoutines(res);
+              })
+            }
+          }
+        ],
+        { cancelable: false }
+      );
+    } else {
+      Alert.alert('Done');
+      ApiServices.addToCompRoutines(routine).then(res => {
+        setSavedRoutines(res);
+      })
+      console.log(routine);
+      console.log('Added');
+    }
+  }
 
   useEffect(() => {
     if (context.user?.firstName) {
@@ -79,7 +111,7 @@ const SavedRoutines: React.FC<SavedRoutinesProps> = ({ navigation }) => {
       < SectionList
         sections={savedRoutineList}
         keyExtractor={item => item._id}
-        renderItem={(data) => <IndividualSavedRoutines navigation={navigation} savedRoutine={data.item} />}
+        renderItem={(data) => <IndividualSavedRoutines handleAddToCompRoutine={handleAddToCompRoutine} navigation={navigation} savedRoutine={data.item} />}
         renderSectionHeader={({ section: { title } }) => (
           <View style={styles.headerView}>
             <Text style={styles.header}>{title}</Text>

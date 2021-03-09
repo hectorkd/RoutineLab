@@ -5,6 +5,10 @@ const RoutineSchema: Schema = new Schema({
   userFirstName: String,
   routineName: String,
   routine: Array,
+  isCompRoutine: {
+    type: Boolean,
+    default: false
+  },
   apparatus: String,
 });
 

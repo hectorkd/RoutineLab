@@ -12,5 +12,6 @@ router.post('/log_in', userController.logIn);
 
 router.post('/add_routine', routineController.postRoutine);
 router.get('/get_routines/:name', routineController.getRoutines);
+router.put('/add_comp_routine', routineController.updateRoutines)
 
 export default router;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { View, Text, StyleSheet, TextInput, Alert } from 'react-native'
+import { View, StyleSheet, TextInput, Alert } from 'react-native'
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { IMove, IStartValue, IRoutineId } from '../interface';
 import SingleAddButton from '../components/SingleAddButton';
@@ -50,11 +50,11 @@ const CreateRoutine: React.FC<CreateRoutineProps> = ({ route, navigation }) => {
       routineArray.forEach(element => {
         routineIds.push({ id: element._id });
       });
-      ApiServices.postRoutine({ userFirstName: context.user.firstName, routineName, apparatus: apparatus, routine: routineIds }).then((res: any) => {
+      ApiServices.postRoutine({ isCompRoutine: false, userFirstName: context.user.firstName, routineName, apparatus: apparatus, routine: routineIds }).then((res: any) => {
         if (res.exists) {
           Alert.alert('Sorry routine under this name already exists');
         } else {
-          navigation.popToTop();
+          navigation.reset();
         }
       })
     }

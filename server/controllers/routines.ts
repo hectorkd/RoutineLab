@@ -22,11 +22,9 @@ async function postRoutine(req: Request, res: Response): Promise<void> {
 }
 
 async function getRoutines(req: Request, res: Response): Promise<void> {
-  console.log('You are here');
   try {
     const { name } = req.params;
     const myRoutines: IRoutine[] = await Routine.find({ userFirstName: name });
-    console.log('-------------', myRoutines);
     res.status(200);
     res.send(myRoutines);
   } catch (error) {
@@ -36,4 +34,29 @@ async function getRoutines(req: Request, res: Response): Promise<void> {
   }
 }
 
-export default { postRoutine, getRoutines }
+async function updateRoutines(req: Request, res: Response): Promise<void> {
+  try {
+    const { _id, apparatus, isCompRoutine } = req.body;
+    console.log('id', _id);
+    console.log({ apparatus });
+    const [changeToFalse]: IRoutine[] = await Routine.find({ apparatus, isCompRoutine: true });
+    if (changeToFalse) {
+      if (_id === changeToFalse?._id) {
+        await Routine.findByIdAndUpdate({ _id: changeToFalse._id }, { isCompRoutine: !changeToFalse.isCompRoutine });
+      } else {
+        await Routine.findByIdAndUpdate({ _id }, { isCompRoutine: !isCompRoutine });
+      }
+    } else {
+      await Routine.findByIdAndUpdate({ _id }, { isCompRoutine: !isCompRoutine });
+    }
+    const myRoutines: IRoutine[] = await Routine.find();
+    res.status(201);
+    res.send(myRoutines)
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+    res.send('Could not update routines')
+  }
+}
+
+export default { postRoutine, getRoutines, updateRoutines }

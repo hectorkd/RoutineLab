@@ -55,11 +55,23 @@ function getRoutines(name: string): Promise<IPostRoutine[]> {
     })
 }
 
+function addToCompRoutines(data: any): Promise<IPostRoutine[]> {
+  return fetch(`${baseUrl}/add_comp_routine`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then(res => res.json());
+}
+
 export default {
   getCodeOfPoints,
   getApparatusMoves,
   addUser,
   logIn,
   postRoutine,
-  getRoutines
+  getRoutines,
+  addToCompRoutines
 }

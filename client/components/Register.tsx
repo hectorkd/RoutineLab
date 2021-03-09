@@ -68,7 +68,7 @@ const Register: React.FC<RegisterProps> = ({ setIsRegistering }) => {
         {/* <PickerIOS
           selectedValue={value}
           style={styles.picker}
-          onValueChange={itemValue => setValue(itemValue)}>
+          onValueChange={(itemValue) => setValue(itemValue.toString())}>
           <PickerIOS.Item label="JavaScript" value="JavaScripts" />
           <PickerIOS.Item label="Java" value="Java" />
           <PickerIOS.Item label="C#" value="C#" />

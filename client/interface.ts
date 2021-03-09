@@ -70,6 +70,7 @@ export interface IPostRoutine {
   userFirstName: string,
   routineName: string,
   apparatus: string,
+  isCompRoutine: boolean,
   routine: IRoutineId[]
 }
 

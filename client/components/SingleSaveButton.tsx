@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { IMove } from '../interface'
 
-interface SingleSaveButtonProps { handleSaveRoutine: any, apparatus: string, routineArray: IMove[] }
+interface SingleSaveButtonProps { handleSaveRoutine: () => {}, apparatus: string, routineArray: IMove[] }
 
 const SingleSaveButton: React.FC<SingleSaveButtonProps> = ({ handleSaveRoutine, apparatus, routineArray }) => {
   return (

@@ -6,9 +6,9 @@ import helperfunctions from '../helperfunctions';
 import { IMove, IPostRoutine, IStartValue } from '../interface';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-interface IndividualSavedRoutineProps { savedRoutine: IPostRoutine, navigation: any }
+interface IndividualSavedRoutineProps { savedRoutine: IPostRoutine, handleAddToCompRoutine: any, navigation: any }
 
-const IndividualSavedRoutines: React.FC<IndividualSavedRoutineProps> = ({ savedRoutine, navigation }) => {
+const IndividualSavedRoutines: React.FC<IndividualSavedRoutineProps> = ({ savedRoutine, navigation, handleAddToCompRoutine }) => {
 
   const [elements, setElements] = useState<IMove[]>([]);
   const [routineArray, setRoutineArray] = useState<IMove[]>([]);
@@ -60,8 +60,10 @@ const IndividualSavedRoutines: React.FC<IndividualSavedRoutineProps> = ({ savedR
           </View>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity>
-        <AntDesign name="staro" size={30} color="grey" />
+      <TouchableOpacity
+        onPress={() => handleAddToCompRoutine(savedRoutine)}
+      >
+        <AntDesign name="staro" size={30} color={savedRoutine.isCompRoutine ? "gold" : "grey"} />
       </TouchableOpacity>
     </View >
   )
