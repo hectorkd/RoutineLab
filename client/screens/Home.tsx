@@ -3,7 +3,8 @@ import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ApiServices from '../ApiServices';
 import { UserContext } from '../context/UserProvider';
-import { IPostRoutine, ICompRoutine } from '../interface';
+import helperfunctions from '../helperfunctions';
+import { IAllStarts, ICompRoutineMoves, IMove, IPostRoutine, IStats } from '../interface';
 
 
 interface homeProps { navigation: any }
@@ -13,18 +14,109 @@ const Home: React.FC<homeProps> = ({ navigation }) => {
   const context = useContext(UserContext);
 
   const [routines, setRoutines] = useState<IPostRoutine[]>([]);
-  const [compRoutines, setCompRoutines] = useState<ICompRoutine>();
+  const [compRoutines, setCompRoutines] = useState<IPostRoutine[]>();
+  const [cop, setCop] = useState<IMove[]>();
+  const [overallStart, setOverallStart] = useState<string>();
+  const [bestApparatus, setBestApparatus] = useState<IStats>();
+  const [weakestApparatus, setWeakestApparatus] = useState<IStats>();
 
   useEffect(() => {
-    if (context.user?.firstName) {
-      ApiServices.getRoutines(context.user?.firstName).then(res => {
-        console.log(res);
-        setRoutines(res);
-      })
-    }
-  }, [])
+    const unsubscribe = navigation.addListener('focus', () => {
+      if (context.user?.firstName) {
+        ApiServices.getRoutines(context.user?.firstName).then(res => {
+          setRoutines(res);
+        });
+        ApiServices.getCompRoutines(context.user?.firstName).then(res => {
+          setCompRoutines(res);
+        })
+        ApiServices.getCodeOfPoints().then(res => setCop(res))
+      }
+    });
+    return unsubscribe;
+  }, []);
 
-  console.log('routines --------------', routines);
+  useEffect(() => {
+    if (compRoutines && cop) {
+      const routines: ICompRoutineMoves[] = []
+      compRoutines.forEach(routine => {
+        const routineElements: IMove[] = []
+        routine.routine.forEach(element => {
+          const move = cop.filter(individualMove => individualMove._id === element.id);
+          routineElements.push(move[0]);
+        })
+        routines.push({ apparatus: routine.apparatus, routine: routineElements });
+      });
+      const starts: IAllStarts[] = []
+      routines.forEach(index => {
+        if (index.apparatus === 'Vault') {
+          const totals = helperfunctions.calculateVaultStart(index.routine);
+          starts.push({ apparatus: index.apparatus, total: totals })
+        } else {
+          const totals = helperfunctions.calculateRoutineStart(index.routine);
+          starts.push({ apparatus: index.apparatus, total: totals })
+        }
+      })
+      starts.sort((a: IAllStarts, b: IAllStarts) => {
+        if (a.apparatus === 'Vault') {
+          if (a.total[0].totalStartValue > a.total[1].totalStartValue) {
+            if (a.total[0].totalStartValue > b.total) return 1
+            if (a.total[0].totalStartValue < b.total) return -1
+            else return 0;
+          } else {
+            if (a.total[1].totalStartValue > b.total) return 1
+            if (a.total[1].totalStartValue < b.total) return -1
+            else return 0;
+          }
+        } else if (b.apparatus === 'Vault') {
+          if (b.total[0].totalStartValue > b.total[1].totalStartValue) {
+            if (b.total[0].totalStartValue < b.total) return 1
+            if (b.total[0].totalStartValue > b.total) return -1
+            else return 0;
+          } else {
+            if (b.total[1].totalStartValue < b.total) return 1
+            if (b.total[1].totalStartValue > b.total) return -1
+            else return 0;
+          }
+        } else {
+          if (a.total > b.total) return 1
+          else if (a.total < b.total) return -1
+          else return 0;
+        }
+      })
+      let totalStart = '0.0'
+      starts.forEach(index => {
+        if (index.apparatus === 'Vault') {
+          if (index.total[0].totalStartValue > index.total[1].totalStartValue) {
+            const stringTotal = +(totalStart) + +(index.total[0].totalStartValue);
+            totalStart = stringTotal.toFixed(1);
+          } else {
+            const stringTotal = +(totalStart) + +(index.total[1].totalStartValue);
+            totalStart = stringTotal.toFixed(1);
+          }
+        } else {
+          const stringTotal = +(totalStart) + +(index.total.totalStartValue);
+          totalStart = stringTotal.toFixed(1);
+        }
+      })
+
+      const best = {
+        apparatus: starts[starts.length - 1].apparatus,
+        routineArray: (routines.find(element => element.apparatus === starts[starts.length - 1].apparatus)?.routine),
+        routineName: (compRoutines.find(element => element.apparatus === starts[starts.length - 1].apparatus)?.routineName),
+        startValue: starts[starts.length - 1].total
+      }
+      const weakest = {
+        apparatus: starts[0].apparatus,
+        routineArray: (routines.find(element => element.apparatus === starts[0].apparatus)?.routine),
+        routineName: (compRoutines.find(element => element.apparatus === starts[0].apparatus)?.routineName),
+        startValue: starts[0].total
+      }
+
+      setOverallStart(totalStart);
+      setBestApparatus(best);
+      setWeakestApparatus(weakest);
+    }
+  }, [compRoutines])
 
   if (!routines.length) {
     return (
@@ -41,36 +133,36 @@ const Home: React.FC<homeProps> = ({ navigation }) => {
     return (
       <View style={styles.container}>
         {
-          !compRoutines
+          !compRoutines?.length
             ? <View />
             : <View style={styles.homeDisplayTop}>
               <Text style={styles.blueText}>OVERALL START:</Text>
               <View style={styles.center}>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('COMPETITION ROUTINES')}
+                  onPress={() => navigation.navigate('COMPETITION ROUTINES', { overallStart, bestApparatus, weakestApparatus })}
                 >
                   <View style={[styles.boxDisplay, styles.shadow]}>
-                    <Text style={styles.blueText}>79.0</Text>
+                    <Text style={styles.blueText}>{overallStart}</Text>
                   </View>
                 </TouchableOpacity>
               </View>
               <Text style={styles.blueText}>BEST APPARATUS:</Text>
               <View style={styles.center}>
                 <TouchableOpacity
-                  onPress={() => { }}
+                  onPress={() => navigation.navigate('ROUTINE', { apparatus: bestApparatus?.apparatus, routineName: bestApparatus?.routineName, routineArray: bestApparatus?.routineArray, startValue: bestApparatus?.startValue })}
                 >
                   <View style={[styles.boxDisplay, styles.shadow]}>
-                    <Text style={styles.blueText}>FLOOR</Text>
+                    <Text style={styles.blueText}>{bestApparatus?.apparatus}</Text>
                   </View>
                 </TouchableOpacity>
               </View>
               <Text style={styles.blueText}>WEAKEST APPARATUS:</Text>
               <View style={styles.center}>
                 <TouchableOpacity
-                  onPress={() => { }}
+                  onPress={() => navigation.navigate('ROUTINE', { apparatus: weakestApparatus?.apparatus, routineName: weakestApparatus?.routineName, routineArray: weakestApparatus?.routineArray, startValue: weakestApparatus?.startValue })}
                 >
                   <View style={[styles.boxDisplay, styles.shadow]}>
-                    <Text style={styles.blueText}>VAULT</Text>
+                    <Text style={styles.blueText}>{weakestApparatus?.apparatus}</Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -87,7 +179,7 @@ const Home: React.FC<homeProps> = ({ navigation }) => {
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate('COMPETITION ROUTINES')}
+              onPress={() => navigation.navigate('COMPETITION ROUTINES', { overallStart, bestApparatus, weakestApparatus })}
             >
               <View style={[styles.buttons, styles.shadow]}>
                 <Text style={styles.blueButtonText}>COMPETITION ROUTINES</Text>
@@ -153,7 +245,7 @@ const styles = StyleSheet.create({
   },
   blueText: {
     color: '#89BFFF',
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: '800',
     marginLeft: 15,
   },

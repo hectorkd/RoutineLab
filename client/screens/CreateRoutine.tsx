@@ -54,7 +54,7 @@ const CreateRoutine: React.FC<CreateRoutineProps> = ({ route, navigation }) => {
         if (res.exists) {
           Alert.alert('Sorry routine under this name already exists');
         } else {
-          navigation.reset();
+          navigation.popToTop();
         }
       })
     }

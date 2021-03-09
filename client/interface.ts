@@ -74,6 +74,15 @@ export interface IPostRoutine {
   routine: IRoutineId[]
 }
 
+export interface IReturnRoutine {
+  _id: string,
+  userFirstName: string,
+  routineName: string,
+  apparatus: string,
+  isCompRoutine: boolean,
+  routine: IRoutineId[]
+}
+
 export interface ICompRoutine {
   floor: IPostRoutine,
   pommel: IPostRoutine,
@@ -81,4 +90,26 @@ export interface ICompRoutine {
   vault: IPostRoutine,
   pBars: IPostRoutine,
   hBar: IPostRoutine,
+}
+
+export interface ISavedRoutines {
+  title: string,
+  data: IReturnRoutine[]
+}
+
+export interface ICompRoutineMoves {
+  apparatus: string,
+  routine: IMove[]
+}
+
+export interface IAllStarts {
+  apparatus: string,
+  total: any
+}
+
+export interface IStats {
+  apparatus: string,
+  routineName: string,
+  routineArray: IMove[],
+  startValue: string,
 }

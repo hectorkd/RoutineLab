@@ -3,10 +3,12 @@ import { Text, StyleSheet, SectionList, View, ActivityIndicator } from 'react-na
 import { IMove, IMoveSection } from '../interface';
 import apiService from '../ApiServices';
 import IndividualMove from '../components/IndividualMove';
+import { TextInput } from 'react-native-gesture-handler';
 
 const CodeOfPoints: React.FC = () => {
 
   const [cop, setCop] = useState<IMove[]>([]);
+  const [searchValue, setSearchValue] = useState<string>('')
 
   const floor: IMove[] = cop.filter(item => item.apparatus === 'Floor').sort((a, b) => a.pointValue - b.pointValue);
   // const pommel: IMove[] = cop.filter(item => item.apparatus === 'floor');
@@ -54,8 +56,7 @@ const CodeOfPoints: React.FC = () => {
     return (
       <View style={styles.container}>
         <View style={styles.search}>
-          <Text>Search</Text>
-          <Text>Filter</Text>
+          <TextInput onChangeText={(val) => setSearchValue(val)} style={styles.input} placeholder="Search"></TextInput>
         </View>
         < SectionList
           sections={copList}
@@ -101,6 +102,15 @@ const styles = StyleSheet.create({
   },
   searchText: {
     color: 'black',
+  },
+  input: {
+    marginTop: 11,
+    paddingLeft: 10,
+    borderWidth: 2,
+    borderRadius: 15,
+    width: 300,
+    height: 45,
+    borderColor: '#89BFFF',
   }
 })
 

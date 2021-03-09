@@ -5,7 +5,8 @@ import { View, Text, StyleSheet } from 'react-native'
 import ApiServices from '../ApiServices';
 import IndividualSavedRoutines from '../components/IndividualSavedRoutines';
 import { UserContext } from '../context/UserProvider';
-import { IPostRoutine } from '../interface';
+import helperfunctions from '../helperfunctions';
+import { IPostRoutine, ISavedRoutines } from '../interface';
 
 interface SavedRoutinesProps { navigation: any }
 
@@ -15,63 +16,14 @@ const SavedRoutines: React.FC<SavedRoutinesProps> = ({ navigation }) => {
 
   const [savedRoutines, setSavedRoutines] = useState<IPostRoutine[]>([])
 
-  const floor: IPostRoutine[] = savedRoutines.filter(routine => routine.apparatus === 'Floor').sort((a: IPostRoutine, b: IPostRoutine) => {
-    if (a.routineName < b.routineName) return 1;
-    if (b.routineName > b.routineName) return -1;
-    return 0;
-  });
-  // const pommel: IMove[] = savedRoutines.filter(item => item.apparatus === 'floor');
-  // const rings: IMove[] = savedRoutines.filter(item => item.apparatus === 'floor');
-  const vault: IPostRoutine[] = savedRoutines.filter(routine => routine.apparatus === 'Vault').sort((a: IPostRoutine, b: IPostRoutine) => {
-    if (a.routineName < b.routineName) return 1;
-    if (b.routineName > b.routineName) return -1;
-    return 0;
-  });
-  const pBars: IPostRoutine[] = savedRoutines.filter(routine => routine.apparatus === 'Parallel Bars').sort((a: IPostRoutine, b: IPostRoutine) => {
-    if (a.routineName < b.routineName) return 1;
-    if (b.routineName > b.routineName) return -1;
-    return 0;
-  });
-  const hBar: IPostRoutine[] = savedRoutines.filter(routine => routine.apparatus === 'Horizontal Bars').sort((a: IPostRoutine, b: IPostRoutine) => {
-    if (a.routineName < b.routineName) return 1;
-    if (b.routineName > b.routineName) return -1;
-    return 0;
-  });
-
-  const savedRoutineList: any = [
-    {
-      title: 'Floor:',
-      data: floor
-    },
-    {
-      title: 'Pommel Horse:',
-      data: []
-    },
-    {
-      title: 'Rings:',
-      data: []
-    },
-    {
-      title: 'Vault:',
-      data: vault
-    },
-    {
-      title: 'Parallel Bars:',
-      data: pBars
-    },
-    {
-      title: 'Horizontal Bars:',
-      data: hBar
-    },
-  ]
+  const savedRoutineList: ISavedRoutines[] = helperfunctions.convertSavedRoutines(savedRoutines);
 
   function handleAddToCompRoutine(routine: IPostRoutine): void {
-    console.log('You are here')
     const apparatusFilter = savedRoutines.filter(IndividualRoutine => IndividualRoutine.apparatus === routine.apparatus);
     if (apparatusFilter.some(element => element.isCompRoutine === true)) {
       Alert.alert(
-        "Are you sure",
-        "Check",
+        "Alert",
+        "Are you sure you want to add/remove this routine to competition routines?",
         [
           {
             text: "Cancel",
@@ -89,12 +41,10 @@ const SavedRoutines: React.FC<SavedRoutinesProps> = ({ navigation }) => {
         { cancelable: false }
       );
     } else {
-      Alert.alert('Done');
       ApiServices.addToCompRoutines(routine).then(res => {
         setSavedRoutines(res);
       })
       console.log(routine);
-      console.log('Added');
     }
   }
 

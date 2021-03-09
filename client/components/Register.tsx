@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { PickerIOS } from '@react-native-picker/picker';
 import ApiServices from '../ApiServices';
 import { UserContext } from '../context/UserProvider';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 interface RegisterProps {
   setIsRegistering: React.Dispatch<React.SetStateAction<boolean>>
@@ -21,7 +22,7 @@ const initialRegistrationValue: IPostUser = {
 
 const Register: React.FC<RegisterProps> = ({ setIsRegistering }) => {
 
-  // const [value, setValue] = useState<string>('JavaScripts');
+  const [value, setValue] = useState<string>('JavaScripts');
   const context = useContext(UserContext)
 
   const [registrationValues, setRegistrationValues] = useState(initialRegistrationValue);
@@ -73,6 +74,20 @@ const Register: React.FC<RegisterProps> = ({ setIsRegistering }) => {
           <PickerIOS.Item label="Java" value="Java" />
           <PickerIOS.Item label="C#" value="C#" />
         </PickerIOS> */}
+        {/* <DropDownPicker
+          items={[
+            { label: 'Tolworth Gymnastics Club', value: 'Tolworth Gymnastics Club' },
+            { label: 'Leatherhead & Dorking Gymnastics Club', value: 'Leatherhead & Dorking Gymnastics Club' },
+          ]}
+          defaultValue={initialRegistrationValue.gymnasticsClub}
+          containerStyle={{ height: 40 }}
+          style={{ backgroundColor: '#fafafa' }}
+          itemStyle={{
+            justifyContent: 'flex-start'
+          }}
+          dropDownStyle={{ backgroundColor: '#fafafa' }}
+          onChangeItem={item => handleChange(item, 'gymnasticsClub')}
+        /> */}
         <TextInput style={styles.inputBox} value={registrationValues.gymnasticsClub} onChangeText={e => handleChange(e, 'gymnasticsClub')} placeholder="Gymnastics club"></TextInput>
         <View style={styles.accountType}>
           <Text style={styles.gymnast}>Type of account?</Text>

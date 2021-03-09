@@ -1,4 +1,4 @@
-import { IMove, IStartValue } from './interface';
+import { IMove, IPostRoutine, IStartValue, ISavedRoutines } from './interface';
 
 function calculateRoutineStart(routine: IMove[]): IStartValue {
   // const eScoreDictionary: object = { '0': 0, '1': 2.0, '2': 2.0, '3': 4.0, '4': 4.0, '5': 6.0, '6': 6.0, '7': 10.0, '8': 10.0, '9': 10.0, '10': 10.0 }
@@ -51,7 +51,60 @@ function round(value: number, precision: number): number {
   return Math.round(value * multiplier) / multiplier;
 }
 
+function convertSavedRoutines(data: IPostRoutine[]): ISavedRoutines[] {
+  const floor: IPostRoutine[] = data.filter(routine => routine.apparatus === 'Floor').sort((a: IPostRoutine, b: IPostRoutine) => {
+    if (a.routineName < b.routineName) return 1;
+    if (b.routineName > b.routineName) return -1;
+    return 0;
+  });
+  // const pommel: IMove[] = data.filter(item => item.apparatus === 'floor');
+  // const rings: IMove[] = data.filter(item => item.apparatus === 'floor');
+  const vault: IPostRoutine[] = data.filter(routine => routine.apparatus === 'Vault').sort((a: IPostRoutine, b: IPostRoutine) => {
+    if (a.routineName < b.routineName) return 1;
+    if (b.routineName > b.routineName) return -1;
+    return 0;
+  });
+  const pBars: IPostRoutine[] = data.filter(routine => routine.apparatus === 'Parallel Bars').sort((a: IPostRoutine, b: IPostRoutine) => {
+    if (a.routineName < b.routineName) return 1;
+    if (b.routineName > b.routineName) return -1;
+    return 0;
+  });
+  const hBar: IPostRoutine[] = data.filter(routine => routine.apparatus === 'Horizontal Bars').sort((a: IPostRoutine, b: IPostRoutine) => {
+    if (a.routineName < b.routineName) return 1;
+    if (b.routineName > b.routineName) return -1;
+    return 0;
+  });
+
+  return [
+    {
+      title: 'Floor:',
+      data: floor
+    },
+    {
+      title: 'Pommel Horse:',
+      data: []
+    },
+    {
+      title: 'Rings:',
+      data: []
+    },
+    {
+      title: 'Vault:',
+      data: vault
+    },
+    {
+      title: 'Parallel Bars:',
+      data: pBars
+    },
+    {
+      title: 'Horizontal Bars:',
+      data: hBar
+    },
+  ]
+}
+
 export default {
   calculateRoutineStart,
-  calculateVaultStart
+  calculateVaultStart,
+  convertSavedRoutines
 }

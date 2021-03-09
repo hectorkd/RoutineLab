@@ -66,6 +66,11 @@ function addToCompRoutines(data: any): Promise<IPostRoutine[]> {
     .then(res => res.json());
 }
 
+function getCompRoutines(name: string): Promise<IPostRoutine[]> {
+  return fetch(`${baseUrl}/comp_routines/${name}`)
+    .then(res => res.json());
+}
+
 export default {
   getCodeOfPoints,
   getApparatusMoves,
@@ -73,5 +78,6 @@ export default {
   logIn,
   postRoutine,
   getRoutines,
-  addToCompRoutines
+  addToCompRoutines,
+  getCompRoutines
 }

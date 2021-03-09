@@ -111,7 +111,7 @@ const HomeStack: React.FC = () => {
           </TouchableOpacity>
         ),
       }} />
-      <Stack.Screen name="COMPETITION ROUTINES" component={CompetitionResults} options={{
+      <Stack.Screen name="COMPETITION ROUTINES" component={CompetitionRoutines} options={{
         headerStyle: {
           backgroundColor: '#89BFFF',
         },
@@ -129,7 +129,7 @@ const HomeStack: React.FC = () => {
           </TouchableOpacity>
         ),
       }} />
-      <Stack.Screen name="COMPETITION RESULTS" component={CompetitionRoutines} options={{
+      <Stack.Screen name="COMPETITION RESULTS" component={CompetitionResults} options={{
         headerStyle: {
           backgroundColor: '#89BFFF',
         },
