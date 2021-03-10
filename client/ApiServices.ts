@@ -1,5 +1,6 @@
 import { IMove, IPostUser, IUser, ILogIn, IPostRoutine } from './interface';
 
+// const baseUrl = 'http://192.168.1.234:3000';
 const baseUrl = 'http://10.10.22.29:3000';
 
 function getCodeOfPoints(): Promise<IMove[]> {
@@ -35,7 +36,7 @@ function logIn(data: ILogIn): Promise<IUser | object> {
 }
 
 function postRoutine(data: IPostRoutine): Promise<IPostRoutine | object> {
-  return fetch(`${baseUrl}/add_routine`, {
+  return fetch(`${baseUrl}/add_routine/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -55,8 +56,8 @@ function getRoutines(name: string): Promise<IPostRoutine[]> {
     })
 }
 
-function addToCompRoutines(data: any): Promise<IPostRoutine[]> {
-  return fetch(`${baseUrl}/add_comp_routine`, {
+function addToCompRoutines(data: any, name: string): Promise<IPostRoutine[]> {
+  return fetch(`${baseUrl}/add_comp_routine/${name}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

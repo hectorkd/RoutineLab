@@ -20,7 +20,7 @@ const SavedRoutines: React.FC<SavedRoutinesProps> = ({ navigation }) => {
 
   function handleAddToCompRoutine(routine: IPostRoutine): void {
     const apparatusFilter = savedRoutines.filter(IndividualRoutine => IndividualRoutine.apparatus === routine.apparatus);
-    if (apparatusFilter.some(element => element.isCompRoutine === true)) {
+    if (apparatusFilter.some(element => element.isCompRoutine === true) && typeof context.user?.firstName === 'string') {
       Alert.alert(
         "Alert",
         "Are you sure you want to add/remove this routine to competition routines?",
@@ -32,7 +32,7 @@ const SavedRoutines: React.FC<SavedRoutinesProps> = ({ navigation }) => {
           },
           {
             text: "OK", onPress: () => {
-              ApiServices.addToCompRoutines(routine).then(res => {
+              ApiServices.addToCompRoutines(routine, context.user?.firstName).then(res => {
                 setSavedRoutines(res);
               })
             }
@@ -41,7 +41,7 @@ const SavedRoutines: React.FC<SavedRoutinesProps> = ({ navigation }) => {
         { cancelable: false }
       );
     } else {
-      ApiServices.addToCompRoutines(routine).then(res => {
+      ApiServices.addToCompRoutines(routine, context.user?.firstName).then(res => {
         setSavedRoutines(res);
       })
     }

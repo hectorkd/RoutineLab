@@ -14,8 +14,8 @@ const Home: React.FC<homeProps> = ({ navigation }) => {
   const context = useContext(UserContext);
 
   const [routines, setRoutines] = useState<IPostRoutine[]>([]);
-  const [compRoutines, setCompRoutines] = useState<IPostRoutine[]>();
-  const [cop, setCop] = useState<IMove[]>();
+  const [compRoutines, setCompRoutines] = useState<IPostRoutine[]>([]);
+  const [cop, setCop] = useState<IMove[]>([]);
   const [overallStart, setOverallStart] = useState<string>();
   const [bestApparatus, setBestApparatus] = useState<IStats>();
   const [weakestApparatus, setWeakestApparatus] = useState<IStats>();
@@ -35,8 +35,10 @@ const Home: React.FC<homeProps> = ({ navigation }) => {
     return unsubscribe;
   }, []);
 
+
+
   useEffect(() => {
-    if (compRoutines && cop) {
+    if (compRoutines.length > 0 && cop.length > 0) {
       const routines: ICompRoutineMoves[] = []
       compRoutines.forEach(routine => {
         const routineElements: IMove[] = []
@@ -116,7 +118,7 @@ const Home: React.FC<homeProps> = ({ navigation }) => {
       setBestApparatus(best);
       setWeakestApparatus(weakest);
     }
-  }, [compRoutines])
+  }, [compRoutines, cop])
 
   if (!routines.length) {
     return (

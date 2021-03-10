@@ -37,6 +37,7 @@ async function getRoutines(req: Request, res: Response): Promise<void> {
 async function updateRoutines(req: Request, res: Response): Promise<void> {
   try {
     const { _id, apparatus, isCompRoutine } = req.body;
+    const { name } = req.params;
     console.log('id', _id);
     console.log({ apparatus });
     const [changeToFalse]: IRoutine[] = await Routine.find({ apparatus, isCompRoutine: true });
@@ -53,7 +54,7 @@ async function updateRoutines(req: Request, res: Response): Promise<void> {
     } else {
       await Routine.findByIdAndUpdate({ _id }, { isCompRoutine: !isCompRoutine });
     }
-    const myRoutines: IRoutine[] = await Routine.find();
+    const myRoutines: IRoutine[] = await Routine.find({ userFirstName: name });
     res.status(201);
     res.send(myRoutines)
   } catch (error) {
@@ -62,6 +63,7 @@ async function updateRoutines(req: Request, res: Response): Promise<void> {
     res.send('Could not update routines')
   }
 }
+
 
 async function getCompRoutines(req: Request, res: Response): Promise<void> {
   try {

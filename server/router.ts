@@ -12,7 +12,7 @@ router.post('/log_in', userController.logIn);
 
 router.post('/add_routine', routineController.postRoutine);
 router.get('/get_routines/:name', routineController.getRoutines);
-router.put('/add_comp_routine', routineController.updateRoutines);
+router.put('/add_comp_routine/:name', routineController.updateRoutines);
 router.get('/comp_routines/:name', routineController.getCompRoutines);
 
 export default router;
