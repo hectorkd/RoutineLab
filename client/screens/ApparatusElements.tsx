@@ -1,16 +1,30 @@
-import React from 'react'
-import { View, Text, StyleSheet, Alert } from 'react-native'
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import { IMove } from '../interface';
-import IndividualMove from '../components/IndividualMove';
+import React from "react";
+import { View, Text, StyleSheet, Alert } from "react-native";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import { IMove } from "../interface";
+import IndividualMove from "../components/IndividualMove";
 
-interface ApparatusElementsProps { route: any, navigation: any }
+interface ApparatusElementsProps {
+  route: any;
+  navigation: any;
+}
 
-const ApparatusElements: React.FC<ApparatusElementsProps> = ({ route, navigation }) => {
+const ApparatusElements: React.FC<ApparatusElementsProps> = ({
+  route,
+  navigation,
+}) => {
+  const {
+    apparatus,
+    elements,
+    setRoutineArray,
+    routine,
+    isChanging,
+    index,
+  } = route.params;
 
-  const { apparatus, elements, setRoutineArray, routine, isChanging, index } = route.params;
-
-  const sortedElements: IMove[] = elements.sort((a: IMove, b: IMove) => a.pointValue - b.pointValue);
+  const sortedElements: IMove[] = elements.sort(
+    (a: IMove, b: IMove) => a.pointValue - b.pointValue
+  );
 
   function handlePress(move: IMove): void {
     let flag = false;
@@ -28,9 +42,10 @@ const ApparatusElements: React.FC<ApparatusElementsProps> = ({ route, navigation
       });
       navigation.goBack();
     } else {
-      Alert.alert('You have already selected this element, please choose a different one')
+      Alert.alert(
+        "You have already selected this element, please choose a different one"
+      );
     }
-
   }
 
   return (
@@ -38,32 +53,29 @@ const ApparatusElements: React.FC<ApparatusElementsProps> = ({ route, navigation
       <Text style={styles.text}>{apparatus}</Text>
       <FlatList
         data={sortedElements}
-        renderItem={data => (
-          <TouchableOpacity
-            onPress={() => handlePress(data.item)}
-          >
+        renderItem={(data) => (
+          <TouchableOpacity onPress={() => handlePress(data.item)}>
             <IndividualMove move={data.item} />
           </TouchableOpacity>
         )}
-        keyExtractor={item => item._id}
+        keyExtractor={(item) => item._id}
       />
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    // alignItems: 'center',
-    backgroundColor: '#EFF6FF'
+    justifyContent: "center",
+    backgroundColor: "#EFF6FF",
   },
   text: {
-    color: '#89BFFF',
+    color: "#89BFFF",
     fontSize: 50,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     paddingLeft: 20,
-  }
-})
+  },
+});
 
 export default ApparatusElements;
