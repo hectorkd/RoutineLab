@@ -4,7 +4,7 @@
   <img src="images/RoutineLab-Logo.png" height="200"/>
 </p>
 
-RoutineLab is a mobile app for gymnasts to be able to build routines easily on their phone with and have an overview of their routines and current progress.
+RoutineLab is a mobile app for gymnasts to be able to build routines easily on their phone and have an overview of their routines and current progress.
 
 ## Screenshots
 
