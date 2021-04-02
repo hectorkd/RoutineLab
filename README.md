@@ -53,4 +53,4 @@ In order to work on the RoutineLab app you will need npm and Node. Follow the in
 
 ## Developers
 
-- Hector Kennedy-Dyson - [GitHub](https://github.com/hectorkd) - [LinkedIn](https://www.linkedin.com/in/hector-kennedy-dyson-a0148112a/)
+- Hector Kennedy-Dyson - [GitHub](https://github.com/hectorkd) - [LinkedIn](https://www.linkedin.com/in/hector-kennedy-dyson/)
