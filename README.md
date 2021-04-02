@@ -9,8 +9,8 @@ RoutineLab is a mobile app for gymnasts to be able to build routines easily on t
 ## Screenshots
 
 <p align="center">
-  <img src="images/screenshot-readme-1.png" />
-  <img src="images/screenshot-readme-2.png" />
+  <img src="images/screenshot-readme-1-a.png" />
+  <img src="images/screenshot-readme-1-b.png" />
 </p>
 
 ## Getting started
