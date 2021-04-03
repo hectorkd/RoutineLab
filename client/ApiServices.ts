@@ -1,6 +1,9 @@
 import { IMove, IPostUser, IUser, ILogIn, IPostRoutine } from "./interface";
+import dotenv from "dotenv";
 
-const baseUrl = "http://localhost:3000";
+dotenv.config();
+
+const baseUrl = process.env.BASE_URL;
 
 function getCodeOfPoints(): Promise<IMove[]> {
   return fetch(`${baseUrl}/code_of_points`).then((res) => res.json());
