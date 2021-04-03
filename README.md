@@ -4,7 +4,7 @@
   <img src="images/RoutineLab-Logo.png" height="200"/>
 </p>
 
-RoutineLab is a mobile app for gymnasts to be able to build routines easily on their phone and have an overview of their routines and current progress.
+RoutineLab is a mobile app for gymnasts to be able to build routines easily on their phone and have an overview of all their saved routines and current progress.
 
 ## Screenshots
 
@@ -26,7 +26,7 @@ In order to work on the RoutineLab app you will need npm and Node. Follow the in
 1. Clone this repo and enter!
 
    ```bash
-   https://github.com/hectorkd/RoutineLab.git
+   git clone https://github.com/hectorkd/RoutineLab.git
    cd RoutineLab
    npm install --global expo-cli
    ```
@@ -47,9 +47,19 @@ In order to work on the RoutineLab app you will need npm and Node. Follow the in
 
 ## Tech Stack
 
+### Front End
+
 - [React Native](https://facebook.github.io/react-native/)
+- [Expo](https://www.expo.io)
+- [TypeScript](https://www.typescriptlang.org/)
+
+### Back End
+
 - [Express](https://expressjs.com/)
+- [Node.js](https://nodejs.org/en/)
+- [MongoDB](https://www.mongodb.com/)
 - [Mongoose](https://mongoosejs.com/)
+- [TypeScript](https://www.typescriptlang.org/)
 
 ## Developers
 
