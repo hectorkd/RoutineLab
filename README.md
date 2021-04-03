@@ -47,10 +47,19 @@ In order to work on the RoutineLab app you will need npm and Node. Follow the in
 
 ## Tech Stack
 
+### Front End
+
 - [React Native](https://facebook.github.io/react-native/)
+- [Expo](https://www.expo.io)
+- [TypeScript](https://www.typescriptlang.org/)
+
+### Back End
+
 - [Express](https://expressjs.com/)
+- [Node.js](https://nodejs.org/en/)
 - [MongoDB](https://www.mongodb.com/)
 - [Mongoose](https://mongoosejs.com/)
+- [TypeScript](https://www.typescriptlang.org/)
 
 ## Developers
 
