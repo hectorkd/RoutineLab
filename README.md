@@ -61,6 +61,12 @@ In order to work on the RoutineLab app you will need npm and Node. Follow the in
 - [Mongoose](https://mongoosejs.com/)
 - [TypeScript](https://www.typescriptlang.org/)
 
-## Developers
+## Contributors ✨
 
-- Hector Kennedy-Dyson - [GitHub](https://github.com/hectorkd) - [LinkedIn](https://www.linkedin.com/in/hector-kennedy-dyson/)
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<table>
+  <tr>
+     <td align="center" ><a href="https://github.com/hectorkd"><img src="https://user-images.githubusercontent.com/62357077/113482749-f9fcd100-9497-11eb-8a54-b767e5a7b614.JPG" width="120px;" alt=""/><br /><sub><b><a href="https://www.linkedin.com/in/hector-kennedy-dyson/" title="linkedin">Hector Kennedy-Dyson</a></b></sub></a><br /><a href="https://github.com/hectorkd/RoutineLab/commits?author=hectorkd" title="Code">💻</a> <a href="#ideas-hector" title="Ideas & Planning">🤔</a> <a href="#review-hector" title="Reviewed Pull Requests">👀</a> <a href="#design-hector" title="Design">🎨</a> <a href="#maintain-hector" title="Maintenance">🚧</a> <a href="https://www.youtube.com/watch?v=RKsBLbWr3cg" title="Videos">📹</a></td>
+  <tr>
+        <table>
