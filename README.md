@@ -61,6 +61,21 @@ In order to work on the RoutineLab app you will need npm and Node. Follow the in
 - [Mongoose](https://mongoosejs.com/)
 - [TypeScript](https://www.typescriptlang.org/)
 
+## Observations
+
+##### Room for improvements
+
+- Better typing for TypeScript
+- Write tests
+- Adapt the UI design
+
+##### Next orders
+
+- Deploy RoutineLab to the app store and google play
+- Add competition results
+- Add collection of olympian routines
+- Add a coaches side
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
